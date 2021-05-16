@@ -5,6 +5,7 @@ services:
   fastapp:
     build: ./fastapp
     image: fastapp
+    container_name: fastapp
     command: bash -c "uvicorn main:app --host 0.0.0.0 --port 80"
     volumes:
       - ./fastapp:/code
@@ -14,7 +15,8 @@ services:
   dollop:
     build: ./dollop
     image: dollop
-    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 80"
+    container_name: dollop
+    command: yarn start
     volumes:
       - ./dollop:/usr/src/app
       - node-modules-dollop:/usr/src/app/node_modules
@@ -24,8 +26,8 @@ services:
       PORT: 80
 
   nginx:
-    image: nginx:1.19
     build: ./proxy
+    image: nginx:1.19
     container_name: spoon-proxy
     volumes:
       - ./proxy/nginx.conf:/etc/nginx/nginx.conf
