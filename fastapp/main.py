@@ -15,7 +15,7 @@ app = FastAPI()
 async def index(request: Request):
     async def make_post_request(url):
         async with httpx.AsyncClient(timeout=30) as client:
-            response = await client.post(url, data={'time': randint(1, 3)})
+            response = await client.post(url, params={'time': randint(1, 3)})
             try:
                 response.raise_for_status()
             except (httpx.RequestError, httpx.HTTPStatusError):

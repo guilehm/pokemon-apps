@@ -13,8 +13,8 @@ app.use(morgan('short'))
 app.use(helmet())
 
 
-app.post('/api/delay/', (req, res) => {
-  const { time } = req.body
+app.get('/api/delay/', (req, res) => {
+  const { time } = req.params
   setTimeout(() => res.json({ time: `${time}s` }), time * 1000)
 })
 

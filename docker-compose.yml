@@ -6,7 +6,7 @@ services:
     build: ./fastapp
     image: fastapp
     container_name: fastapp
-    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 80"
+    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 80 --reload"
     volumes:
       - ./fastapp:/code
     ports:
@@ -16,7 +16,7 @@ services:
     build: ./dollop
     image: dollop
     container_name: dollop
-    command: yarn start
+    command: yarn dev
     volumes:
       - ./dollop:/usr/src/app
       - node-modules-dollop:/usr/src/app/node_modules
@@ -36,7 +36,6 @@ services:
     links:
       - fastapp:fastapp
       - dollop:dollop
-
 
 volumes:
   node-modules-dollop:
