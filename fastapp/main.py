@@ -12,7 +12,7 @@ app = FastAPI()
 
 
 @app.get('/')
-async def index(request: Request):
+async def index():
     async def make_get_request(url):
         async with httpx.AsyncClient(timeout=30) as client:
             response = await client.get(url, params={'time': f'{uniform(1, 3)}'})
