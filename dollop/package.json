@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "yarn && node app.js"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "helmet": "^4.6.0",
