@@ -1,11 +1,10 @@
 import asyncio
+from random import randint
 
 import httpx
 from fastapi import FastAPI, HTTPException
 from fastapi import Request
 from fastapi.responses import JSONResponse
-from random import randint
-
 
 DOLLOP_URL = 'http://dollop'
 
