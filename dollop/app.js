@@ -14,7 +14,7 @@ app.use(helmet())
 
 
 app.get('/api/delay/', (req, res) => {
-  const { time } = req.params
+  const { time } = req.query
   setTimeout(() => res.json({ time: `${time}s` }), time * 1000)
 })
 
