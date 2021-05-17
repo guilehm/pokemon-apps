@@ -1,9 +1,8 @@
 import asyncio
-from random import random, randint, uniform
+from random import uniform
 
 import httpx
 from fastapi import FastAPI, HTTPException
-from fastapi import Request
 from fastapi.responses import JSONResponse
 
 API_URL = 'http://spoon-proxy'
