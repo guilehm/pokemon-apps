@@ -1,5 +1,4 @@
 import asyncio
-from random import uniform, randint
 
 import httpx
 from fastapi import FastAPI, HTTPException
