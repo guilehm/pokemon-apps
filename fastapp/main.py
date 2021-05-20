@@ -1,10 +1,11 @@
 import asyncio
+import os
 
 import httpx
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 
-API_URL = 'http://spoon-proxy'
+API_URL = os.getenv('API_URL', 'http://spoon-proxy')
 
 app = FastAPI()
 
