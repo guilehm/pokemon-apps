@@ -6,7 +6,7 @@ services:
     build: ./fastapp
     image: fastapp
     container_name: fastapp
-    command: bash -c "gunicorn -w 4 -p 80 -b 0.0.0.0:80 -k uvicorn.workers.UvicornWorker main:app"
+    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 80 --reload"
     volumes:
       - ./fastapp:/code
     ports:
