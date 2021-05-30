@@ -19,7 +19,7 @@ services:
     command: yarn dev
     volumes:
       - ./dollop:/usr/app
-      - node-modules-dollop:/usr/app/node_modules
+      - ./dollop/node_modules:/usr/app/node_modules
     ports:
       - 3000:80
     environment:
@@ -32,7 +32,7 @@ services:
     command: yarn start
     volumes:
       - ./valtr:/usr/app
-      - node-modules-valtr:/usr/app/node_modules
+      - ./valtr/node_modules:/usr/app/node_modules
     ports:
       - 3001:80
     environment:
@@ -49,7 +49,3 @@ services:
     links:
       - fastapp:fastapp
       - dollop:dollop
-
-volumes:
-  node-modules-dollop:
-  node-modules-valtr:
