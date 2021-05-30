@@ -10,7 +10,7 @@ from routers import pokemon
 API_URL = os.getenv('API_URL', 'http://spoon-proxy')
 
 app = FastAPI()
-app.include_router(pokemon.router)
+app.include_router(prefix='/fastapp', router=pokemon.router)
 
 
 @app.get('/')
