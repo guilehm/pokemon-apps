@@ -26,6 +26,6 @@ async def index():
 
     urls = (f'{API_URL}/api/delay/' for _ in range(10))
     results = await asyncio.gather(
-        *[make_get_request(url, index) for index, url in enumerate(urls, 1)]
+        *[make_get_request(url, idx) for idx, url in enumerate(urls, 1)]
     )
     return JSONResponse(results)
