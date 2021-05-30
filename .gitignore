@@ -234,5 +234,8 @@ dist
 # TernJS port file
 .tern-port
 
+# dependencies
+/.pnp
+.pnp.js
 
 */.idea/*

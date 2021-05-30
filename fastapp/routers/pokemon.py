@@ -9,4 +9,3 @@ router = APIRouter(
 @router.get('/')
 async def pokemon():
     return {'ok': True}
-

@@ -25,6 +25,16 @@ services:
     environment:
       PORT: 80
 
+  logarius:
+    build: ./logarius
+    image: logarius
+    container_name: logarius
+    command: yarn start
+    ports:
+      - 3001:80
+    environment:
+      PORT: 80
+
   nginx:
     image: nginx:1.19
     container_name: spoon-proxy
