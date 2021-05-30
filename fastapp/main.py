@@ -5,9 +5,12 @@ import httpx
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 
+from routers import pokemon
+
 API_URL = os.getenv('API_URL', 'http://spoon-proxy')
 
 app = FastAPI()
+app.include_router(pokemon.router)
 
 
 @app.get('/')
