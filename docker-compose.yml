@@ -18,18 +18,21 @@ services:
     container_name: dollop
     command: yarn dev
     volumes:
-      - ./dollop:/usr/src/app
-      - node-modules-dollop:/usr/src/app/node_modules
+      - ./dollop:/usr/app
+      - node-modules-dollop:/usr/app/node_modules
     ports:
       - 3000:80
     environment:
       PORT: 80
 
-  logarius:
-    build: ./logarius
-    image: logarius
-    container_name: logarius
+  valtr:
+    build: ./valtr
+    image: valtr
+    container_name: valtr
     command: yarn start
+    volumes:
+      - ./valtr:/usr/app
+      - node-modules-valtr:/usr/app/node_modules
     ports:
       - 3001:80
     environment:
@@ -49,3 +52,4 @@ services:
 
 volumes:
   node-modules-dollop:
+  node-modules-valtr:
