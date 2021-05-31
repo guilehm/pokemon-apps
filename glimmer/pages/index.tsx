@@ -24,8 +24,11 @@ export default Home
 
 export const getStaticProps = async () => {
   const Api = new ApiService()
+  const response = await Api.getPokemonList()
+  const pokemonList = response.data.results
   return {
     props: {
+      pokemonList
     },
     revalidate: 60,
   }
