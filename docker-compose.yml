@@ -25,14 +25,14 @@ services:
     environment:
       PORT: 80
 
-  valtr:
-    build: ./valtr
-    image: valtr
-    container_name: valtr
-    command: yarn start
+  glimmer:
+    build: ./glimmer
+    image: glimmer
+    container_name: glimmer
+    command: yarn dev
     volumes:
-      - ./valtr:/usr/app
-      - ./valtr/node_modules:/usr/app/node_modules
+      - ./glimmer:/usr/app
+      - ./glimmer/node_modules:/usr/app/node_modules
     ports:
       - 3001:80
     environment:
