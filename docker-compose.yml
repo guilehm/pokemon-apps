@@ -18,10 +18,23 @@ services:
     container_name: dollop
     command: yarn dev
     volumes:
-      - ./dollop:/usr/src/app
-      - node-modules-dollop:/usr/src/app/node_modules
+      - ./dollop:/usr/app
+      - ./dollop/node_modules:/usr/app/node_modules
     ports:
       - 3000:80
+    environment:
+      PORT: 80
+
+  valtr:
+    build: ./valtr
+    image: valtr
+    container_name: valtr
+    command: yarn start
+    volumes:
+      - ./valtr:/usr/app
+      - ./valtr/node_modules:/usr/app/node_modules
+    ports:
+      - 3001:80
     environment:
       PORT: 80
 
@@ -36,6 +49,3 @@ services:
     links:
       - fastapp:fastapp
       - dollop:dollop
-
-volumes:
-  node-modules-dollop:
