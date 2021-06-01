@@ -16,7 +16,7 @@ app.include_router(prefix='/fastapp', router=pokemon.router)
 @app.get('/')
 async def index():
     async def make_get_request(url, _index):
-        async with httpx.AsyncClient(timeout=30) as client:
+        async with httpx.AsyncClient() as client:
             response = await client.get(url, params={'time': _index})
             try:
                 response.raise_for_status()
