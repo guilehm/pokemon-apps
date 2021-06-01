@@ -27,8 +27,10 @@ services:
     environment:
       RABBITMQ_URL: amqp://guest:guest@spoon-rabbitmq/
       POKEMON_ROUTING_KEY: pokemon
+      MONGODB_URI: mongodb://mongo-legendastv:27017/legendastv
     depends_on:
       - rabbitmq
+      - mongo
     links:
       - rabbitmq:rabbitmq
 
@@ -74,8 +76,16 @@ services:
       - 5672:5672
       - 15672:15672
 
+  mongo:
+    container_name: spoon-mongo
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-data:/data/db
 
 volumes:
   rabbitmq_etc:
   rabbitmq_data:
   rabbitmq_logs:
+  mongodb-data:
