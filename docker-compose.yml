@@ -49,3 +49,24 @@ services:
     links:
       - fastapp:fastapp
       - dollop:dollop
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: spoon-rabbitmq
+    volumes:
+      - rabbitmq_etc:/etc/rabbitmq/
+      - rabbitmq_data:/var/lib/rabbitmq/
+      - rabbitmq_logs:/var/log/rabbitmq/
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+
+volumes:
+  rabbitmq_etc:
+  rabbitmq_data:
+  rabbitmq_logs:
