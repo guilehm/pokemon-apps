@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 import aio_pika
 
@@ -15,7 +16,9 @@ class RabbitMQService:
         async with connection:
             channel = await connection.channel()
             results = await asyncio.gather(*[channel.default_exchange.publish(
-                aio_pika.Message(body=message.encode()),
+                aio_pika.Message(
+                    body=json.dumps(message).encode() if isinstance(message, dict) else message.encode()
+                ),
                 routing_key=routing_key,
             ) for message in messages])
         return results

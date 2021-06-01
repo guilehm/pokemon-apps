@@ -21,15 +21,14 @@ async def pokemon_list(limit: int = 20, offset: int = 0):
             url=f'{POKEMON_API_BASE_URL}/pokemon/',
             params={'limit': limit, 'offset': offset},
         )
-        pokemon_results = response.json()['results']
         service = RabbitMQService()
         results = await asyncio.gather(
-            *[make_request(client, result['url']) for result in pokemon_results],
+            *[make_request(client, result['url']) for result in response.json()['results']],
         )
         results_data = [result.json() for result in results]
 
     await service.publish_messages(
         POKEMON_ROUTING_KEY,
-        (data['name'] for data in results_data),
+        (data for data in results_data),
     )
     return results_data
