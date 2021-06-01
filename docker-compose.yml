@@ -11,6 +11,10 @@ services:
       - ./fastapp:/code
     ports:
       - 8000:80
+    environment:
+      RABBITMQ_URL: amqp://guest:guest@spoon-rabbitmq/
+    depends_on:
+      - rabbitmq
 
   dollop:
     build: ./dollop
@@ -24,6 +28,9 @@ services:
       - 3000:80
     environment:
       PORT: 80
+      RABBITMQ_URL: amqp://guest:guest@spoon-rabbitmq/
+    depends_on:
+      - rabbitmq
 
   glimmer:
     build: ./glimmer

@@ -3,9 +3,9 @@ import asyncio
 import httpx
 from fastapi import APIRouter
 
+from services.publisher import RabbitMQService
+from settings import POKEMON_API_BASE_URL, POKEMON_ROUTING_KEY
 from utils import make_request
-
-API_BASE_URL = 'https://pokeapi.co/api/v2'
 
 router = APIRouter(
     prefix='/pokemon',
@@ -18,11 +18,18 @@ async def pokemon_list(limit: int = 20, offset: int = 0):
     async with httpx.AsyncClient() as client:
         response = await make_request(
             client=client,
-            url=f'{API_BASE_URL}/pokemon/',
+            url=f'{POKEMON_API_BASE_URL}/pokemon/',
             params={'limit': limit, 'offset': offset},
         )
-        pokemon_list_data = response.json()['results']
+        pokemon_results = response.json()['results']
+        service = RabbitMQService()
         results = await asyncio.gather(
-            *[make_request(client, data['url']) for data in pokemon_list_data]
+            *[make_request(client, result['url']) for result in pokemon_results],
         )
-    return [result.json() for result in results]
+        results_data = [result.json() for result in results]
+
+    await service.publish_messages(
+        POKEMON_ROUTING_KEY,
+        (data['name'] for data in results_data),
+    )
+    return results_data

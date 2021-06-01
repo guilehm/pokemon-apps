@@ -14,8 +14,8 @@ def get_logger():
 logger = get_logger()
 
 
-async def make_request(client, url, params=None):
-    logger.info(
+async def make_request(client, url, params=None, log=False):
+    log and logger.info(
         f'Requesting {url}{f"?{urllib.parse.urlencode(params or dict())}" if params else ""}'
     )
     response = await client.get(url, params=params or dict())

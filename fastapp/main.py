@@ -6,8 +6,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 
 from routers import pokemon
-
-API_URL = os.getenv('API_URL', 'http://spoon-proxy')
+from settings import PROXY_URL
 
 app = FastAPI()
 app.include_router(prefix='/fastapp', router=pokemon.router)
@@ -24,7 +23,7 @@ async def index():
                 raise HTTPException(status_code=400)
         return response.json()
 
-    urls = (f'{API_URL}/api/delay/' for _ in range(10))
+    urls = (f'{PROXY_URL}/api/delay/' for _ in range(10))
     results = await asyncio.gather(
         *[make_get_request(url, idx) for idx, url in enumerate(urls, 1)]
     )
