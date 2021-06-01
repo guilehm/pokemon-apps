@@ -13,4 +13,4 @@ mongoose.connect(MONGODB_URI, {
     .catch(e => logger.error('Error while trying to connect to Mongo', e))
 
 
-module.exports = mongoose
+export default mongoose
