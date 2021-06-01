@@ -6,31 +6,31 @@ services:
     build: ./fastapp
     image: fastapp
     container_name: fastapp
-    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 80 --reload"
+    command: bash -c "./wait-for-rabbitmq.sh && uvicorn main:app --host 0.0.0.0 --port 80 --reload"
     volumes:
       - ./fastapp:/code
     ports:
       - 8000:80
     environment:
       RABBITMQ_URL: amqp://guest:guest@spoon-rabbitmq/
-    depends_on:
-      - rabbitmq
+      POKEMON_ROUTING_KEY: pokemon
 
   dollop:
     build: ./dollop
     image: dollop
     container_name: dollop
-    command: yarn dev
+    command: sh -c "./wait-for.sh spoon-rabbitmq:5672 -- yarn dev"
     volumes:
-      - ./dollop:/usr/app
-      - ./dollop/node_modules:/usr/app/node_modules
+      - ./dollop:/code
     ports:
       - 3000:80
     environment:
-      PORT: 80
       RABBITMQ_URL: amqp://guest:guest@spoon-rabbitmq/
+      POKEMON_ROUTING_KEY: pokemon
     depends_on:
       - rabbitmq
+    links:
+      - rabbitmq:rabbitmq
 
   glimmer:
     build: ./glimmer
@@ -44,6 +44,8 @@ services:
       - 3001:80
     environment:
       PORT: 80
+    depends_on:
+      - fastapp
 
   nginx:
     image: nginx:1.19

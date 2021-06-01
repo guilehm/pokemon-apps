@@ -18,7 +18,7 @@ amqp.connect(RABBITMQ_URL, (connError, connection) => {
     logger.info(` [*] Waiting for messages in ${POKEMON_ROUTING_KEY}.`,)
 
     channel.consume(POKEMON_ROUTING_KEY, (msg) => {
-      logger.info(` [x] Received ${msg?.content.toString()}`,)
+      logger.info(` [x] Received ${msg!.properties.messageId}`)
     }, { noAck: true })
 
   })
