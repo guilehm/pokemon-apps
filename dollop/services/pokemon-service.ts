@@ -1,5 +1,6 @@
 import mongo, { Mongoose, UpdateWriteOpResult } from 'mongoose'
 import Pokemon, { PokemonSchemaType } from '../database/models/pokemon-model'
+import logger from '../utils/logger'
 
 class PokemonService {
 
@@ -10,6 +11,7 @@ class PokemonService {
   }
 
   async updateOrCreatePokemon(pokemonData: PokemonSchemaType): Promise<UpdateWriteOpResult> {
+    logger.info(`Updating Pokemon ${JSON.stringify(pokemonData['name'])}`)
     return Pokemon.updateOne(
       { id: pokemonData.id },
       pokemonData,
