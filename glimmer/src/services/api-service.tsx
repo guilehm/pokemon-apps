@@ -13,7 +13,7 @@ class ApiService {
     this.client = axios.create()
   }
 
-  getPokemonList(limit: number = 20, offset: number = 0) {
+  getPokemonList(limit = 20, offset = 0) {
     return this.client.get(`${this.baseUrl}/`, { params: { limit, offset } })
   }
 
