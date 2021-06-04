@@ -60,6 +60,10 @@ services:
     links:
       - fastapp:fastapp
       - dollop:dollop
+    networks:
+      default:
+        aliases:
+          - pokemon.local.com
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
