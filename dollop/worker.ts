@@ -3,8 +3,8 @@ import logger from './utils/logger'
 import PokemonService from './services/pokemon-service'
 import mongo from './database/mongodb'
 
-const RABBITMQ_URL = process.env.RABBITMQ_URL
-const POKEMON_ROUTING_KEY = process.env.POKEMON_ROUTING_KEY
+const RABBITMQ_URL = process.env.RABBITMQ_URL as string
+const POKEMON_ROUTING_KEY = process.env.POKEMON_ROUTING_KEY as string
 
 
 amqp.connect(RABBITMQ_URL, (connError, connection) => {
