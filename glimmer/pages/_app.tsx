@@ -1,4 +1,4 @@
-import { AppProps, AppContext } from 'next/app';
+import { AppProps } from 'next/app';
 import { createGlobalStyle } from 'styled-components'
 import '../styles/globals.css'
 
@@ -8,6 +8,15 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+
+  ul {
+    padding: 0;
+    list-style-type: none;
+  }
+
+  figure {
+    margin: 0;
   }
 `
 
