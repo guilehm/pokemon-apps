@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Image from 'next/image'
+import Image, { ImageProps } from 'next/image'
 
 
 export const Section = styled.section`
@@ -16,5 +16,5 @@ export const Wrap = styled.div`
   margin: auto;
 `;
 
-export const PokemonImage = styled(Image)`
+export const PokemonImage = styled(Image) <ImageProps>`
 `;

@@ -1,5 +1,4 @@
 import { PokemonDetailResult } from '../services/types'
-import Image from 'next/image'
 
 import * as S from './PokemonCard.styles'
 
