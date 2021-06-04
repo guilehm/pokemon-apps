@@ -1,11 +1,19 @@
 import asyncio
+from typing import List
 
 import httpx
 from fastapi import APIRouter
 
+from database.models import PokemonModel
+from database.mongodb import db
 from services.publisher import RabbitMQService
 from settings import POKEMON_API_BASE_URL, POKEMON_ROUTING_KEY
 from utils import make_request, make_pokemon_detail_response
+
+api_router = APIRouter(
+    prefix='/pokemon',
+    responses={404: {'description': 'Not found'}},
+)
 
 router = APIRouter(
     prefix='/pokemon',
@@ -13,7 +21,7 @@ router = APIRouter(
 )
 
 
-@router.get('/')
+@api_router.get('/')
 async def pokemon_list(limit: int = 20, offset: int = 0):
     async with httpx.AsyncClient() as client:
         response = await make_request(
@@ -36,7 +44,7 @@ async def pokemon_list(limit: int = 20, offset: int = 0):
     return results_data
 
 
-@router.get('/{pokemon_id}/')
+@api_router.get('/{pokemon_id}/')
 async def pokemon_detail(pokemon_id: int):
     async with httpx.AsyncClient() as client:
         response = await make_request(
@@ -44,3 +52,16 @@ async def pokemon_detail(pokemon_id: int):
             url=f'{POKEMON_API_BASE_URL}/pokemon/{pokemon_id}',
         )
     return await make_pokemon_detail_response(response.json())
+
+
+@router.get(
+    '/',
+    response_description='Retrieve all Pokemon from database',
+    response_model=List[PokemonModel],
+)
+async def pokemon_list():
+    pokemon_list_data = await db['pokemons'].find(
+        {},
+        {'id': 1, 'name': 1},
+    ).to_list(2000)
+    return pokemon_list_data
