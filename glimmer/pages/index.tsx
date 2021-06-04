@@ -1,28 +1,30 @@
 import React from 'react'
-import PokemonCard from '../src/components/PokemonCard'
+import Home from '../src/components/Home'
 import ApiService from '../src/services/api-service'
 import { PokemonDetailResult } from '../src/services/types'
+import Head from 'next/head'
 
 
 interface PokemonDetailResultProps {
   pokemonList: PokemonDetailResult[]
 }
 
-const Home: React.FC<PokemonDetailResultProps> = ({ pokemonList }) => {
+
+const Index: React.FC<PokemonDetailResultProps> = ({ pokemonList }) => {
+
   return (
-    <div>
-      <main>
-        <h1>
-          Hello World!
-        </h1>
-        {pokemonList.map(pokemon => <PokemonCard key={pokemon.name} {...pokemon} />)}
-      </main>
-    </div>
+    <>
+      <Head>
+        <title>Pokemon</title>
+      </Head>
+      <Home pokemonList={pokemonList} />
+    </>
+
   )
 }
 
 
-export default Home
+export default Index
 
 
 export const getStaticProps = async () => {
