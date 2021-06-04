@@ -10,7 +10,7 @@ export const Container = styled.div`
 export const PokemonList = styled.ul`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
 `;
 
