@@ -24,3 +24,16 @@ async def make_request(client, url, params=None, log=False):
     except (httpx.RequestError, httpx.HTTPStatusError):
         raise HTTPException(status_code=500)
     return response
+
+
+async def make_pokemon_detail_response(payload):
+    return {
+        'name': payload['name'],
+        'sprites': {
+            'other': {
+                'official-artwork': {
+                    'front_default': payload['sprites']['other']['official-artwork']['front_default'],
+                }
+            }
+        }
+    }
