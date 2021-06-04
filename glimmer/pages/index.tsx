@@ -1,18 +1,21 @@
+import React from 'react'
+import PokemonCard from '../src/components/PokemonCard'
 import ApiService from '../src/services/api-service'
-import { PokemonListResult } from '../src/services/types'
+import { PokemonDetailResult } from '../src/services/types'
 
-interface PokemonListResultProps {
-  pokemonList: PokemonListResult[]
+
+interface PokemonDetailResultProps {
+  pokemonList: PokemonDetailResult[]
 }
 
-const Home: React.FC<PokemonListResultProps> = ({ pokemonList }) => {
+const Home: React.FC<PokemonDetailResultProps> = ({ pokemonList }) => {
   return (
     <div>
       <main>
         <h1>
           Hello World!
         </h1>
-        {pokemonList.map(pokemon => <div key={pokemon.name}>{pokemon.name}</div>)}
+        {pokemonList.map(pokemon => <PokemonCard key={pokemon.name} {...pokemon} />)}
       </main>
     </div>
   )

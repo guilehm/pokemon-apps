@@ -1,7 +1,13 @@
-type PokemonListResult = {
+type PokemonDetailResult = {
   name: string
-  url: string
+  sprites: {
+    other: {
+      'official-artwork': {
+        'front_default': string
+      }
+    }
+  }
 }
 
 
-export type { PokemonListResult }
+export type { PokemonDetailResult }
