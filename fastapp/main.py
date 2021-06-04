@@ -9,6 +9,7 @@ from settings import PROXY_URL
 from utils import make_pokemon_detail_response
 
 app = FastAPI()
+app.include_router(prefix='/fastapp/api', router=pokemon.api_router)
 app.include_router(prefix='/fastapp', router=pokemon.router)
 
 
