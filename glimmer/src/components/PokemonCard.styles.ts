@@ -11,8 +11,8 @@ export const Name = styled.h2`
 
 export const Wrap = styled.div`
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 135px;
+  height: 135px;
   margin: auto;
 `;
 
