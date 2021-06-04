@@ -7,9 +7,9 @@ const PokemonCard: React.FC<PokemonDetailResult> = ({ name, sprites }) => (
     <header>
       <figure>
         <S.Wrap>
-          <S.PokemonImage
+          {sprites.other['official-artwork'].front_default && <S.PokemonImage
             src={sprites.other['official-artwork'].front_default}
-            layout={'fill'} />
+            layout={'fill'} />}
         </S.Wrap>
         <figcaption>
           <S.Name>{name}</S.Name>
