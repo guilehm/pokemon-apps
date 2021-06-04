@@ -1,5 +1,5 @@
 import { PokemonDetailResult } from '../services/types'
-import PokemonCard from './PokemonCard'
+import PokemonCard from '../components/PokemonCard'
 import * as S from './Home.styles';
 
 interface PokemonDetailResultProps {

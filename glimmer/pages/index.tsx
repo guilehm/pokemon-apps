@@ -1,5 +1,5 @@
 import React from 'react'
-import Home from '../src/components/Home'
+import Home from '../src/templates/Home'
 import ApiService from '../src/services/api-service'
 import { PokemonDetailResult } from '../src/services/types'
 import Head from 'next/head'
