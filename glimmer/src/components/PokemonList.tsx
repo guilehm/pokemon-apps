@@ -19,7 +19,7 @@ const PokemonList: React.FC<PokemonDetailResultProps> = ({ list }) => {
   const Api = new ApiService()
 
   const fetchNewResults = async () => {
-    const response = await Api.getPokemonList(
+    const response = await Api.getApiPokemonList(
       { offset: pokemonList.length, limit }
     )
     if (!response.data.length) {
