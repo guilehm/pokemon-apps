@@ -1,5 +1,5 @@
-import { PokemonDetailResult } from "../services/types"
-import PokemonCard from "./PokemonCard"
+import { PokemonDetailResult } from '../services/types'
+import PokemonCard from './PokemonCard'
 
 
 interface PokemonDetailResultProps {
@@ -12,7 +12,7 @@ const Home: React.FC<PokemonDetailResultProps> = ({ pokemonList }) => (
     <main>
       <h1>
         Hello World!
-        </h1>
+      </h1>
       {pokemonList.map(pokemon => <PokemonCard key={pokemon.name} {...pokemon} />)}
     </main>
   </div>
