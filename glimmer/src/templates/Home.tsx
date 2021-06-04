@@ -9,7 +9,7 @@ interface PokemonDetailResultProps {
 
 const Home: React.FC<PokemonDetailResultProps> = ({ pokemonList }) => (
   <S.Container>
-    <PokemonList pokemonList={pokemonList} />
+    <PokemonList list={pokemonList} />
   </S.Container>
 )
 
