@@ -24,7 +24,7 @@ export default Index
 
 export const getStaticProps = async () => {
   const Api = new ApiService()
-  const response = await Api.getPokemonList()
+  const response = await Api.getPokemonList({ limit: 30 })
   const pokemonList = response.data || []
   return {
     props: {
