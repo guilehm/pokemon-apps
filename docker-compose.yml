@@ -13,6 +13,7 @@ services:
       - 8000:80
     environment:
       RABBITMQ_URL: amqp://guest:guest@spoon-rabbitmq/
+      MONGODB_URI: mongodb://spoon-mongo:27017/spoon
       POKEMON_ROUTING_KEY: pokemon
 
   dollop:
@@ -26,8 +27,8 @@ services:
       - 3000:80
     environment:
       RABBITMQ_URL: amqp://guest:guest@spoon-rabbitmq/
-      POKEMON_ROUTING_KEY: pokemon
       MONGODB_URI: mongodb://spoon-mongo:27017/spoon
+      POKEMON_ROUTING_KEY: pokemon
     depends_on:
       - rabbitmq
       - mongo
