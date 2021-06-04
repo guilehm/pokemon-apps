@@ -7,18 +7,16 @@ interface PokemonDetailResultProps {
 }
 
 
-const Home: React.FC<PokemonDetailResultProps> = ({ pokemonList }) => {
-  return (
-    <div>
-      <main>
-        <h1>
-          Hello World!
+const Home: React.FC<PokemonDetailResultProps> = ({ pokemonList }) => (
+  <div>
+    <main>
+      <h1>
+        Hello World!
         </h1>
-        {pokemonList.map(pokemon => <PokemonCard key={pokemon.name} {...pokemon} />)}
-      </main>
-    </div>
-  )
-}
+      {pokemonList.map(pokemon => <PokemonCard key={pokemon.name} {...pokemon} />)}
+    </main>
+  </div>
+)
 
 
 export default Home

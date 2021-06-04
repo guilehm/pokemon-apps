@@ -10,19 +10,14 @@ interface PokemonDetailResultProps {
 }
 
 
-const Index: React.FC<PokemonDetailResultProps> = ({ pokemonList }) => {
-
-  return (
-    <>
-      <Head>
-        <title>Pokemon</title>
-      </Head>
-      <Home pokemonList={pokemonList} />
-    </>
-
-  )
-}
-
+const Index: React.FC<PokemonDetailResultProps> = ({ pokemonList }) => (
+  <>
+    <Head>
+      <title>Pokemon</title>
+    </Head>
+    <Home pokemonList={pokemonList} />
+  </>
+)
 
 export default Index
 
