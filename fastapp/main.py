@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 
 from routers import pokemon
 from settings import PROXY_URL
+from utils import make_pokemon_detail_response
 
 app = FastAPI()
 app.include_router(prefix='/fastapp', router=pokemon.router)

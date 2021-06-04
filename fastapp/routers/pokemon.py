@@ -34,3 +34,13 @@ async def pokemon_list(limit: int = 20, offset: int = 0):
         )
     )
     return results_data
+
+
+@router.get('/{pokemon_id}/')
+async def pokemon_detail(pokemon_id: int):
+    async with httpx.AsyncClient() as client:
+        response = await make_request(
+            client=client,
+            url=f'{POKEMON_API_BASE_URL}/pokemon/{pokemon_id}',
+        )
+    return await make_pokemon_detail_response(response.json())
