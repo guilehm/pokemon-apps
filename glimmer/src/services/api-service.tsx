@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 
-const API_URL = process.env.API_URL || 'http://spoon-proxy'
+const API_URL = process.env.API_URL || 'http://pokemon.local.com'
 const POKEMON_API_BASE_URL = process.env.REACT_APP_POKEMON_API_BASE_URL || 'fastapp/pokemon'
 
 
