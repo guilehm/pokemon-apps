@@ -4,12 +4,18 @@ import * as S from './PokemonCard.styles'
 
 const PokemonCard: React.FC<PokemonDetailResult> = ({ name, sprites }) => (
   <S.Section>
-    <S.Name>{name}</S.Name>
-    <S.Wrap>
-      <S.PokemonImage
-        src={sprites.other['official-artwork'].front_default}
-        layout={'fill'} />
-    </S.Wrap>
+    <header>
+      <figure>
+        <S.Wrap>
+          <S.PokemonImage
+            src={sprites.other['official-artwork'].front_default}
+            layout={'fill'} />
+        </S.Wrap>
+        <figcaption>
+          <S.Name>{name}</S.Name>
+        </figcaption>
+      </figure>
+    </header>
   </S.Section>
 )
 
