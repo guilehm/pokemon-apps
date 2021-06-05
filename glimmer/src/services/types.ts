@@ -1,3 +1,8 @@
+type PokemonListResult = {
+  id: string,
+  name: string,
+}
+
 type PokemonDetailResult = {
   name: string
   sprites: {
@@ -10,4 +15,4 @@ type PokemonDetailResult = {
 }
 
 
-export type { PokemonDetailResult }
+export type { PokemonDetailResult, PokemonListResult }
