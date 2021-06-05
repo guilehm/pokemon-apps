@@ -4,6 +4,7 @@ type PokemonListResult = {
 }
 
 type PokemonDetailResult = {
+  id: string
   name: string
   sprites: {
     other: {

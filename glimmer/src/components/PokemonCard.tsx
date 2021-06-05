@@ -1,8 +1,9 @@
 import { PokemonDetailResult } from '../services/types'
+import Link from 'next/link'
 
 import * as S from './PokemonCard.styles'
 
-const PokemonCard: React.FC<PokemonDetailResult> = ({ name, sprites }) => (
+const PokemonCard: React.FC<PokemonDetailResult> = ({ id, name, sprites }) => (
   <S.Section>
     <header>
       <figure>
@@ -12,7 +13,9 @@ const PokemonCard: React.FC<PokemonDetailResult> = ({ name, sprites }) => (
             layout={'fill'} />}
         </S.Wrap>
         <figcaption>
-          <S.Name>{name}</S.Name>
+          <Link href={`/pokemon/${id}/`}>
+            <a><S.Name>{name}</S.Name></a>
+          </Link>
         </figcaption>
       </figure>
     </header>

@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
-import { PokemonListResult, PokemonDetailResult } from './types'
+import { PokemonDetailResult } from './types'
 
 const API_URL = process.env.API_URL || 'http://pokemon.local.com/fastapp'
 
