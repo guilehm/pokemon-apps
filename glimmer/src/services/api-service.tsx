@@ -1,21 +1,27 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosInstance, AxiosResponse } from 'axios'
+import { PokemonListResult, PokemonDetailResult } from './types'
 
-const API_URL = process.env.API_URL || 'http://pokemon.local.com'
-const POKEMON_BASE_URL = process.env.REACT_APP_POKEMON_BASE_URL || 'fastapp/pokemon'
-const POKEMON_API_BASE_URL = process.env.REACT_APP_POKEMON_API_BASE_URL || 'fastapp/api/pokemon'
-
+const API_URL = process.env.API_URL || 'http://pokemon.local.com/fastapp'
 
 class ApiService {
   baseUrl: string
   client: AxiosInstance
 
-  constructor(baseUrl: string = POKEMON_API_BASE_URL) {
-    this.baseUrl = `${API_URL}/${baseUrl}`
+  constructor(baseUrl: string = API_URL) {
+    this.baseUrl = `${baseUrl}`
     this.client = axios.create()
   }
 
-  getApiPokemonList({ limit = 20, offset = 0 }) {
-    return this.client.get(`${this.baseUrl}/`, { params: { limit, offset } })
+  getApiPokemonList({ limit = 20, offset = 0 }): Promise<AxiosResponse> {
+    return this.client.get(`${this.baseUrl}/api/pokemon`, { params: { limit, offset } })
+  }
+
+  getPokemonList(): Promise<AxiosResponse> {
+    return this.client.get(`${this.baseUrl}/pokemon`)
+  }
+
+  getPokemonDetail(id: string): Promise<AxiosResponse<PokemonDetailResult>> {
+    return this.client.get(`${this.baseUrl}/pokemon/${id}/`)
   }
 
 
