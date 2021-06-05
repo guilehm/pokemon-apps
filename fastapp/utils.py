@@ -28,6 +28,7 @@ async def make_request(client, url, params=None, log=False):
 
 async def make_pokemon_detail_response(payload):
     return {
+        'id': payload['id'],
         'name': payload['name'],
         'sprites': {
             'other': {
