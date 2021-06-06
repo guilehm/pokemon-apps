@@ -39,7 +39,7 @@ services:
     build: ./glimmer
     image: glimmer
     container_name: glimmer
-    command: yarn dev
+    command: sh -c "yarn --dev && yarn dev"
     volumes:
       - ./glimmer:/usr/app
       - ./glimmer/node_modules:/usr/app/node_modules
