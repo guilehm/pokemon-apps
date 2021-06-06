@@ -61,6 +61,9 @@ services:
     links:
       - fastapp:fastapp
       - dollop:dollop
+      - glimmer:glimmer
+    depends_on:
+      - glimmer
     networks:
       default:
         aliases:
