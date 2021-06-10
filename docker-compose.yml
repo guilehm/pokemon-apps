@@ -50,6 +50,14 @@ services:
     depends_on:
       - fastapp
 
+  goapp:
+    image: golang:1.16.5-alpine
+    container_name: goapp
+    command: go run main.go
+    volumes:
+      - ./goapp:/go/src/goapp
+    working_dir: /go/src/goapp
+
   nginx:
     image: nginx:1.19
     container_name: spoon-proxy
