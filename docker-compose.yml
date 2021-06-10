@@ -57,6 +57,8 @@ services:
     volumes:
       - ./goapp:/go/src/goapp
     working_dir: /go/src/goapp
+    ports:
+      - 8090:8090
 
   nginx:
     image: nginx:1.19
