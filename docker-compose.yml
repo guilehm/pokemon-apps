@@ -51,7 +51,8 @@ services:
       - fastapp
 
   goapp:
-    image: golang:1.16.5-alpine
+    build: ./goapp
+    image: goapp
     container_name: goapp
     command: go run main.go
     volumes:
@@ -59,6 +60,7 @@ services:
     working_dir: /go/src/goapp
     environment:
       PORT: 80
+      MONGODB_URI: mongodb://spoon-mongo:27017/spoon
     ports:
       - 8090:80
 
