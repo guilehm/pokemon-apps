@@ -40,9 +40,41 @@ func pokemon(w http.ResponseWriter, req *http.Request) {
 		panic(err)
 	}
 
+	collection := client.Database("spoon").Collection("pokemons")
+	cur, currErr := collection.Find(ctx, bson.D{})
+
+	if currErr != nil {
+		panic(currErr)
+	}
+	defer cur.Close(ctx)
+
+	var pokemons []Pokemon
+	if err = cur.All(ctx, &pokemons); err != nil {
+		panic(err)
+	}
+	fmt.Fprintf(w, "$%v", pokemons)
+}
+
+func hello(w http.ResponseWriter, req *http.Request) {
+	fmt.Fprintf(w, "hello\n")
+
+}
+
+func headers(w http.ResponseWriter, req *http.Request) {
+	for name, headers := range req.Header {
+		for _, h := range headers {
+			fmt.Fprintf(w, "%v: %v\n", name, h)
+		}
+	}
+}
+
+func main() {
+	fmt.Println("Hello World")
+
 	fmt.Println("Successfully connected to Mongodb and pinged.")
 
 	http.HandleFunc("/goapp/hello", hello)
+	http.HandleFunc("/goapp/pokemon", pokemon)
 	http.HandleFunc("/goapp/headers", headers)
 
 	http.ListenAndServe(":"+os.Getenv("PORT"), nil)
