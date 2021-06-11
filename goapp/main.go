@@ -36,7 +36,7 @@ type Pokemon struct {
 	DateAdded time.Time `bson:"dateAdded"`
 }
 
-func pokemon(w http.ResponseWriter, req *http.Request) {
+func pokemonList(w http.ResponseWriter, req *http.Request) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -103,6 +103,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/goapp/hello", hello)
 	r.HandleFunc("/goapp/pokemon", pokemon)
+	r.HandleFunc("/goapp/pokemon", pokemonList)
 	r.HandleFunc("/goapp/pokemon/{id}", pokemonDetail)
 	r.HandleFunc("/goapp/headers", headers)
 
