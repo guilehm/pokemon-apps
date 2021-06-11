@@ -21,6 +21,9 @@ func headers(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 	fmt.Println("Hello World")
-	http.HandleFunc("/hello", hello)
+
+	http.HandleFunc("/goapp/hello", hello)
+	http.HandleFunc("/goapp/headers", headers)
+
 	http.ListenAndServe(":"+os.Getenv("PORT"), nil)
 }
