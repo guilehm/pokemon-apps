@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
@@ -10,7 +11,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 type Pokemon struct {
@@ -23,36 +23,29 @@ type Pokemon struct {
 
 func pokemon(w http.ResponseWriter, req *http.Request) {
 
-	uri := os.Getenv("MONGODB_URI")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGODB_URI")))
 	if err != nil {
 		panic(err)
 	}
-	defer func() {
-		if err = client.Disconnect(ctx); err != nil {
-			panic(err)
-		}
-	}()
+	defer client.Disconnect(ctx)
 
-	if err := client.Ping(ctx, readpref.Primary()); err != nil {
-		panic(err)
-	}
-
-	collection := client.Database("spoon").Collection("pokemons")
-	cur, currErr := collection.Find(ctx, bson.D{})
-
-	if currErr != nil {
-		panic(currErr)
-	}
-	defer cur.Close(ctx)
+	database := client.Database("spoon")
+	pokemonCollection := database.Collection("pokemons")
 
 	var pokemons []Pokemon
-	if err = cur.All(ctx, &pokemons); err != nil {
+	cursor, err := pokemonCollection.Find(ctx, bson.M{"height": bson.D{{"$gt", 5}}})
+	if err != nil {
 		panic(err)
 	}
-	fmt.Fprintf(w, "$%v", pokemons)
+	if err = cursor.All(ctx, &pokemons); err != nil {
+		panic(err)
+	}
+
+	json, _ := json.Marshal(pokemons)
+	w.Write(json)
+
 }
 
 func hello(w http.ResponseWriter, req *http.Request) {
@@ -70,8 +63,6 @@ func headers(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 	fmt.Println("Hello World")
-
-	fmt.Println("Successfully connected to Mongodb and pinged.")
 
 	http.HandleFunc("/goapp/hello", hello)
 	http.HandleFunc("/goapp/pokemon", pokemon)
