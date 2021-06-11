@@ -84,8 +84,8 @@ func pokemonDetail(w http.ResponseWriter, req *http.Request) {
 
 	var pokemon Pokemon
 
-	parsedId, _ := strconv.Atoi(id)
-	if err = pokemonCollection.FindOne(ctx, bson.M{"id": parsedId}).Decode(&pokemon); err != nil {
+	intId, _ := strconv.Atoi(id)
+	if err = pokemonCollection.FindOne(ctx, bson.M{"id": intId}).Decode(&pokemon); err != nil {
 		panic(err)
 	}
 
