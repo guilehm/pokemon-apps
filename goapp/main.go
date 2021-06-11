@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -69,7 +70,28 @@ func pokemonDetail(w http.ResponseWriter, req *http.Request) {
 	if !ok {
 		fmt.Println("id is missing in parameters")
 	}
-	fmt.Println(`id := `, id)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGODB_URI")))
+	if err != nil {
+		panic(err)
+	}
+	defer client.Disconnect(ctx)
+
+	database := client.Database("spoon")
+	pokemonCollection := database.Collection("pokemons")
+
+	var pokemon Pokemon
+
+	parsedId, _ := strconv.Atoi(id)
+	if err = pokemonCollection.FindOne(ctx, bson.M{"id": parsedId}).Decode(&pokemon); err != nil {
+		panic(err)
+	}
+
+	jsonResponse, _ := json.Marshal(pokemon)
+	w.Write(jsonResponse)
+
 }
 
 func main() {
