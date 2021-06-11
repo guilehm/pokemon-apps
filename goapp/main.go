@@ -102,10 +102,9 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/goapp/hello", hello)
-	r.HandleFunc("/goapp/pokemon", pokemon)
+	r.HandleFunc("/goapp/headers", headers)
 	r.HandleFunc("/goapp/pokemon", pokemonList)
 	r.HandleFunc("/goapp/pokemon/{id}", pokemonDetail)
-	r.HandleFunc("/goapp/headers", headers)
 
 	http.ListenAndServe(":"+os.Getenv("PORT"), r)
 }
