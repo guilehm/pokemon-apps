@@ -43,8 +43,8 @@ func pokemon(w http.ResponseWriter, req *http.Request) {
 		panic(err)
 	}
 
-	json, _ := json.Marshal(pokemons)
-	w.Write(json)
+	jsonResponse, _ := json.Marshal(pokemons)
+	w.Write(jsonResponse)
 
 }
 
