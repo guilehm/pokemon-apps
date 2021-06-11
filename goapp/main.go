@@ -8,6 +8,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/gorilla/mux"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -61,12 +63,23 @@ func headers(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+func pokemonDetail(w http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	id, ok := vars["id"]
+	if !ok {
+		fmt.Println("id is missing in parameters")
+	}
+	fmt.Println(`id := `, id)
+}
+
 func main() {
 	fmt.Println("Hello World")
 
-	http.HandleFunc("/goapp/hello", hello)
-	http.HandleFunc("/goapp/pokemon", pokemon)
-	http.HandleFunc("/goapp/headers", headers)
+	r := mux.NewRouter()
+	r.HandleFunc("/goapp/hello", hello)
+	r.HandleFunc("/goapp/pokemon", pokemon)
+	r.HandleFunc("/goapp/pokemon/{id}", pokemonDetail)
+	r.HandleFunc("/goapp/headers", headers)
 
-	http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+	http.ListenAndServe(":"+os.Getenv("PORT"), r)
 }
