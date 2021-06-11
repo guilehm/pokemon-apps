@@ -16,6 +16,18 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+var CNX = Connection()
+
+func Connection() *mongo.Client {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGODB_URI")))
+	if err != nil {
+		panic(err)
+	}
+	return client
+}
+
 type Pokemon struct {
 	Id        int32     `bson:"id"`
 	Name      string    `bson:"name"`
