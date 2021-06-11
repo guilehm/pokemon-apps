@@ -40,11 +40,7 @@ func pokemon(w http.ResponseWriter, req *http.Request) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGODB_URI")))
-	if err != nil {
-		panic(err)
-	}
-	defer client.Disconnect(ctx)
+	client := Connection()
 
 	database := client.Database("spoon")
 	pokemonCollection := database.Collection("pokemons")
@@ -85,21 +81,16 @@ func pokemonDetail(w http.ResponseWriter, req *http.Request) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGODB_URI")))
-	if err != nil {
-		panic(err)
-	}
-	defer client.Disconnect(ctx)
 
+	client := Connection()
 	database := client.Database("spoon")
 	pokemonCollection := database.Collection("pokemons")
 
 	var pokemon Pokemon
 
 	intId, _ := strconv.Atoi(id)
-	if err = pokemonCollection.FindOne(ctx, bson.M{"id": intId}).Decode(&pokemon); err != nil {
-		panic(err)
-	}
+
+	pokemonCollection.FindOne(ctx, bson.M{"id": intId}).Decode(&pokemon)
 
 	jsonResponse, _ := json.Marshal(pokemon)
 	w.Write(jsonResponse)
