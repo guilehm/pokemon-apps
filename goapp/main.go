@@ -7,32 +7,21 @@ import (
 	"os"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 type Pokemon struct {
-	Name   string `bson:"name"`
-	Height int32  `bson:"height,omitempty"`
-	Weight int32  `bson:"weight,omitempty"`
+	Id        int32     `bson:"id"`
+	Name      string    `bson:"name"`
+	Height    int32     `bson:"height,omitempty"`
+	Weight    int32     `bson:"weight,omitempty"`
+	DateAdded time.Time `bson:"dateAdded"`
 }
 
-func hello(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "hello\n")
-
-}
-
-func headers(w http.ResponseWriter, req *http.Request) {
-	for name, headers := range req.Header {
-		for _, h := range headers {
-			fmt.Fprintf(w, "%v: %v\n", name, h)
-		}
-	}
-}
-
-func main() {
-	fmt.Println("Hello World")
+func pokemon(w http.ResponseWriter, req *http.Request) {
 
 	uri := os.Getenv("MONGODB_URI")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
