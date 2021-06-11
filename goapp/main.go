@@ -12,6 +12,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
+type Pokemon struct {
+	Name   string `bson:"name"`
+	Height int32  `bson:"height,omitempty"`
+	Weight int32  `bson:"weight,omitempty"`
+}
+
 func hello(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "hello\n")
 
