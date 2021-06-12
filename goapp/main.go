@@ -42,7 +42,11 @@ func pokemonList(w http.ResponseWriter, req *http.Request) {
 	defer cancel()
 
 	pokemonCollection := db.PokemonCollection()
-	cursor, err := pokemonCollection.Find(ctx, bson.M{"height": bson.D{{"$gt", 5}}})
+	cursor, err := pokemonCollection.Find(
+		ctx,
+		bson.M{},
+		// bson.M{"height": bson.D{{"$gt", 5}}}
+	)
 	if err != nil {
 		panic(err)
 	}
