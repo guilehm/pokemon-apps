@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"goapp/db"
 	"net/http"
 	"os"
 	"strconv"
@@ -12,20 +13,19 @@ import (
 	"github.com/gorilla/mux"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var CNX = Connection()
+func hello(w http.ResponseWriter, req *http.Request) {
+	fmt.Fprintf(w, "hello\n")
 
-func Connection() *mongo.Client {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGODB_URI")))
-	if err != nil {
-		panic(err)
+}
+
+func headers(w http.ResponseWriter, req *http.Request) {
+	for name, headers := range req.Header {
+		for _, h := range headers {
+			fmt.Fprintf(w, "%v: %v\n", name, h)
+		}
 	}
-	return client
 }
 
 type Pokemon struct {
@@ -40,7 +40,7 @@ func pokemonList(w http.ResponseWriter, req *http.Request) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	client := Connection()
+	client := db.Connection()
 
 	database := client.Database("spoon")
 	pokemonCollection := database.Collection("pokemons")
@@ -59,19 +59,6 @@ func pokemonList(w http.ResponseWriter, req *http.Request) {
 
 }
 
-func hello(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "hello\n")
-
-}
-
-func headers(w http.ResponseWriter, req *http.Request) {
-	for name, headers := range req.Header {
-		for _, h := range headers {
-			fmt.Fprintf(w, "%v: %v\n", name, h)
-		}
-	}
-}
-
 func pokemonDetail(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	id, ok := vars["id"]
@@ -82,7 +69,7 @@ func pokemonDetail(w http.ResponseWriter, req *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	client := Connection()
+	client := db.Connection()
 	database := client.Database("spoon")
 	pokemonCollection := database.Collection("pokemons")
 
