@@ -52,6 +52,7 @@ func pokemonList(w http.ResponseWriter, req *http.Request) {
 	}
 
 	jsonResponse, _ := json.Marshal(pokemons)
+	w.Header().Add("Content-Type", "application/json")
 	w.Write(jsonResponse)
 
 }
@@ -75,6 +76,7 @@ func pokemonDetail(w http.ResponseWriter, req *http.Request) {
 	pokemonCollection.FindOne(ctx, bson.M{"id": intId}).Decode(&pokemon)
 
 	jsonResponse, _ := json.Marshal(pokemon)
+	w.Header().Add("Content-Type", "application/json")
 	w.Write(jsonResponse)
 
 }
