@@ -17,15 +17,20 @@ import (
 
 func hello(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "hello\n")
-
 }
 
 func headers(w http.ResponseWriter, req *http.Request) {
+	responseHeaders := make(map[string]string)
+
 	for name, headers := range req.Header {
 		for _, h := range headers {
-			fmt.Fprintf(w, "%v: %v\n", name, h)
+			responseHeaders[name] = h
 		}
 	}
+
+	jsonResponse, _ := json.Marshal(responseHeaders)
+	w.Header().Add("Content-Type", "application/json")
+	w.Write(jsonResponse)
 }
 
 type Pokemon struct {
