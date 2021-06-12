@@ -18,3 +18,12 @@ func Connection() *mongo.Client {
 	}
 	return client
 }
+
+func PokemonCollection() *mongo.Collection {
+
+	client := Connection()
+
+	database := client.Database("spoon")
+	pokemonCollection := database.Collection("pokemons")
+	return pokemonCollection
+}
