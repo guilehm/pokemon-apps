@@ -40,13 +40,14 @@ func pokemonList(w http.ResponseWriter, req *http.Request) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	pokemonCollection := db.PokemonCollection()
 
-	var pokemons []Pokemon
+	pokemonCollection := db.PokemonCollection()
 	cursor, err := pokemonCollection.Find(ctx, bson.M{"height": bson.D{{"$gt", 5}}})
 	if err != nil {
 		panic(err)
 	}
+
+	var pokemons []Pokemon
 	if err = cursor.All(ctx, &pokemons); err != nil {
 		panic(err)
 	}
@@ -67,12 +68,10 @@ func pokemonDetail(w http.ResponseWriter, req *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	pokemonCollection := db.PokemonCollection()
-
-	var pokemon Pokemon
-
 	intId, _ := strconv.Atoi(id)
 
+	var pokemon Pokemon
+	pokemonCollection := db.PokemonCollection()
 	pokemonCollection.FindOne(ctx, bson.M{"id": intId}).Decode(&pokemon)
 
 	jsonResponse, _ := json.Marshal(pokemon)
