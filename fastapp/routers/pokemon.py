@@ -60,7 +60,7 @@ async def pokemon_detail(pokemon_id: int):
     response_model=List[PokemonModel],
 )
 async def pokemon_list():
-    pokemon_list_data = await db['pokemons'].find(
+    pokemon_list_data = await db['pokemon'].find(
         {},
         {'id': 1, 'name': 1},
     ).to_list(2000)

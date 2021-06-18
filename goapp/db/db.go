@@ -22,6 +22,6 @@ func Connection() *mongo.Client {
 func PokemonCollection() *mongo.Collection {
 	client := Connection()
 	database := client.Database("spoon")
-	pokemonCollection := database.Collection("pokemons")
+	pokemonCollection := database.Collection("pokemon")
 	return pokemonCollection
 }
