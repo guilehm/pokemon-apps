@@ -15,24 +15,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func hello(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "hello\n")
-}
-
-func headers(w http.ResponseWriter, req *http.Request) {
-	responseHeaders := make(map[string]string)
-
-	for name, headers := range req.Header {
-		for _, h := range headers {
-			responseHeaders[name] = h
-		}
-	}
-
-	jsonResponse, _ := json.Marshal(responseHeaders)
-	w.Header().Add("Content-Type", "application/json")
-	w.Write(jsonResponse)
-}
-
 type Pokemon struct {
 	Id        int32     `bson:"id"`
 	Name      string    `bson:"name"`
@@ -90,11 +72,9 @@ func pokemonDetail(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	fmt.Println("Hello World")
+	fmt.Println("hello from goapp")
 
 	r := mux.NewRouter()
-	r.HandleFunc("/goapp/hello", hello)
-	r.HandleFunc("/goapp/headers", headers)
 	r.HandleFunc("/goapp/pokemon", pokemonList)
 	r.HandleFunc("/goapp/pokemon/{id}", pokemonDetail)
 
