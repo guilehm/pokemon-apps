@@ -15,23 +15,19 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-type OfficialArtwork struct {
-	FrontDefault string `bson:"front_default" json:"front_default"`
-}
-type Other struct {
-	OfficialArtwork OfficialArtwork `bson:"official-artwork" json:"official-artwork"`
-}
-
-type Sprites struct {
-	Other Other `bson:"other" json:"other"`
-}
 type Pokemon struct {
 	Id        int32     `bson:"id" json:"id"`
 	Name      string    `bson:"name" json:"name"`
 	Height    int32     `bson:"height,omitempty" json:"height"`
 	Weight    int32     `bson:"weight,omitempty" json:"weight"`
 	DateAdded time.Time `bson:"date_added" json:"date_added"`
-	Sprites   Sprites   `bson:"sprites" json:"sprites"`
+	Sprites   struct {
+		Other struct {
+			OfficialArtwork struct {
+				FrontDefault string `bson:"front_default" json:"front_default"`
+			} `bson:"official-artwork" json:"official-artwork"`
+		} `bson:"other" json:"other"`
+	} `bson:"sprites" json:"sprites"`
 }
 
 func pokemonList(w http.ResponseWriter, req *http.Request) {
