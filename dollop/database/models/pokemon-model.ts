@@ -30,7 +30,7 @@ const PokemonSchema: Schema = new mongoose.Schema({
   weight: {
     type: Number,
   },
-  dateAdded: {
+  date_added: {
     type: Date,
     default: Date.now,
   },
