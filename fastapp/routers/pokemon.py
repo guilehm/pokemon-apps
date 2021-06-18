@@ -29,11 +29,11 @@ async def pokemon_list(limit: int = 20, offset: int = 0):
             url=f'{POKEMON_API_BASE_URL}/pokemon/',
             params={'limit': limit, 'offset': offset},
         )
-        service = RabbitMQService()
         results = await asyncio.gather(
             *[make_request(client, result['url']) for result in response.json()['results']],
         )
 
+    service = RabbitMQService()
     *results_data, _ = await asyncio.gather(
         *[make_pokemon_detail_response(data.json()) for data in results],
         service.publish_messages(
