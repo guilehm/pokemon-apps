@@ -16,11 +16,11 @@ import (
 )
 
 type Pokemon struct {
-	Id        int32     `bson:"id"`
-	Name      string    `bson:"name"`
-	Height    int32     `bson:"height,omitempty"`
-	Weight    int32     `bson:"weight,omitempty"`
-	DateAdded time.Time `bson:"dateAdded"`
+	Id        int32     `bson:"id" json:"id"`
+	Name      string    `bson:"name" json:"name"`
+	Height    int32     `bson:"height,omitempty" json:"height"`
+	Weight    int32     `bson:"weight,omitempty" json:"weight"`
+	DateAdded time.Time `bson:"date_added" json:"date_added"`
 }
 
 func pokemonList(w http.ResponseWriter, req *http.Request) {
