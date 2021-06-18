@@ -20,7 +20,7 @@ amqp.connect(RABBITMQ_URL, (connError, connection) => {
     logger.info(` [*] Waiting for messages in ${POKEMON_ROUTING_KEY}.`,)
     channel.consume(POKEMON_ROUTING_KEY, (msg) => {
       if (!msg) return
-      logger.info(` [x] Received ${msg && msg.properties.messageId}`)
+      logger.info(` [x] Received ${msg.properties.messageId}`)
       pokemonService.updateOrCreatePokemon(JSON.parse(msg.content.toString()))
     }, { noAck: true })
   })
