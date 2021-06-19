@@ -17,7 +17,7 @@ import (
 )
 
 const POKEMON_API_BASE_URL = "https://pokeapi.co/api/v2"
-const POKEMON_API_DETAIL_URL = "https://pokeapi.co/api/v2/pokemon/"
+const POKEMON_API_LIST_URL = "https://pokeapi.co/api/v2/pokemon/"
 
 type Pokemon struct {
 	Id        int32     `bson:"id" json:"id"`
@@ -58,7 +58,7 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	endpoint := POKEMON_API_DETAIL_URL + id
+	endpoint := POKEMON_API_LIST_URL + id
 	resp, err := http.Get(endpoint)
 
 	if err != nil {
@@ -184,6 +184,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/goapp/pokemon", pokemonList)
 	r.HandleFunc("/goapp/pokemon/{id}", pokemonDetail)
+	r.HandleFunc("/goapp/api/pokemon", pokemonApiList)
 	r.HandleFunc("/goapp/api/pokemon/{id}", pokemonApiDetail)
 
 	http.ListenAndServe(":"+os.Getenv("PORT"), r)
