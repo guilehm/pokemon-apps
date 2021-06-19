@@ -76,9 +76,8 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 
 	endpoint := POKEMON_API_LIST_URL + id
 	resp, err := http.Get(endpoint)
-
 	if err != nil {
-		handleApiErrors(w, http.StatusServiceUnavailable, "")
+		handleApiErrors(w, resp.StatusCode, "")
 		return
 	}
 
