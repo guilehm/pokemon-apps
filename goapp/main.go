@@ -19,10 +19,6 @@ import (
 const POKEMON_API_BASE_URL = "https://pokeapi.co/api/v2"
 const POKEMON_API_DETAIL_URL = "https://pokeapi.co/api/v2/pokemon/"
 
-type jsonErrorResponse struct {
-	Error string `json:"error"`
-}
-
 type Pokemon struct {
 	Id        int32     `bson:"id" json:"id"`
 	Name      string    `bson:"name" json:"name"`
