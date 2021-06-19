@@ -18,9 +18,9 @@ import (
 type Pokemon struct {
 	Id        int32     `bson:"id" json:"id"`
 	Name      string    `bson:"name" json:"name"`
-	Height    int32     `bson:"height,omitempty" json:"height"`
-	Weight    int32     `bson:"weight,omitempty" json:"weight"`
-	DateAdded time.Time `bson:"date_added" json:"date_added"`
+	Height    int32     `bson:"height,omitempty" json:"height,omitempty"`
+	Weight    int32     `bson:"weight,omitempty" json:"weight,omitempty"`
+	DateAdded time.Time `bson:"date_added,omitempty" json:"date_added,omitempty"`
 	Sprites   struct {
 		Other struct {
 			OfficialArtwork struct {
