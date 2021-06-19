@@ -148,11 +148,25 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	jsonResponse, _ := json.Marshal(struct {
-		Limit  string `json:"limit"`
-		Offset string `json:"offset"`
-		Query  string `json:"query"`
-	}{limit, offset, endpoint.String()})
+	body, readErr := ioutil.ReadAll(resp.Body)
+	if readErr != nil {
+		handleApiErrors(w, http.StatusServiceUnavailable, "")
+		return
+	}
+
+	var pokemonResponseResult PokemonApiListResponse
+	jsonErr := json.Unmarshal(body, &pokemonResponseResult)
+	if jsonErr != nil {
+		handleApiErrors(w, http.StatusInternalServerError, "")
+		return
+	}
+
+	jsonResponse, err := json.Marshal(pokemonResponseResult.Results)
+
+	if err != nil {
+		handleApiErrors(w, http.StatusInternalServerError, "")
+		return
+	}
 	w.Write(jsonResponse)
 }
 
