@@ -50,11 +50,9 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(req)
 	id, ok := vars["id"]
+
 	if !ok {
-		w.WriteHeader(http.StatusBadRequest)
-		jsonError := jsonErrorResponse{Error: "id is missing in parameters"}
-		jsonResponse, _ := json.Marshal(jsonError)
-		w.Write(jsonResponse)
+		handleApiErrors(w, http.StatusBadRequest, "id is missing in parameters")
 		return
 	}
 
@@ -62,10 +60,7 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 	resp, err := http.Get(endpoint)
 
 	if err != nil {
-		w.WriteHeader(http.StatusServiceUnavailable)
-		jsonError := jsonErrorResponse{Error: "Service Unavailable"}
-		jsonResponse, _ := json.Marshal(jsonError)
-		w.Write(jsonResponse)
+		handleApiErrors(w, http.StatusServiceUnavailable, "Service Unavailable")
 		return
 	}
 
@@ -75,10 +70,7 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 
 	body, readErr := ioutil.ReadAll(resp.Body)
 	if readErr != nil {
-		w.WriteHeader(http.StatusServiceUnavailable)
-		jsonError := jsonErrorResponse{Error: "Service Unavailable"}
-		jsonResponse, _ := json.Marshal(jsonError)
-		w.Write(jsonResponse)
+		handleApiErrors(w, http.StatusServiceUnavailable, "Service Unavailable")
 		return
 	}
 
@@ -86,24 +78,17 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 
 	jsonErr := json.Unmarshal(body, &pokemon)
 	if jsonErr != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		jsonError := jsonErrorResponse{Error: "Internal server error"}
-		jsonResponse, _ := json.Marshal(jsonError)
-		w.Write(jsonResponse)
+		handleApiErrors(w, http.StatusInternalServerError, "Internal server error")
 		return
 	}
 
 	jsonResponse, err := json.Marshal(pokemon)
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		jsonError := jsonErrorResponse{Error: "Internal server error"}
-		jsonResponse, _ := json.Marshal(jsonError)
-		w.Write(jsonResponse)
+		handleApiErrors(w, http.StatusInternalServerError, "Internal server error")
 		return
 	}
 
-	w.Header().Add("Content-Type", "application/json")
 	w.Write(jsonResponse)
 }
 
