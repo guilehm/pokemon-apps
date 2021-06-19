@@ -35,6 +35,17 @@ type Pokemon struct {
 	} `bson:"sprites" json:"sprites"`
 }
 
+type PokemonApiListResult struct {
+	Name string `json:"name"`
+	Url  string `json:"url"`
+}
+type PokemonApiListResponse struct {
+	Count    int                    `json:"count"`
+	Next     string                 `json:"next,omitempty"`
+	Previous string                 `json:"previous,omitempty"`
+	Results  []PokemonApiListResult `json:"results"`
+}
+
 func handleApiErrors(w http.ResponseWriter, status int, message string) {
 	if message == "" {
 		message = http.StatusText(status)
