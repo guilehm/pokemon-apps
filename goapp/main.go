@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"goapp/db"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
@@ -17,6 +18,10 @@ import (
 
 const POKEMON_API_BASE_URL = "https://pokeapi.co/api/v2"
 const POKEMON_API_DETAIL_URL = "https://pokeapi.co/api/v2/pokemon/"
+
+type jsonErrorResponse struct {
+	Error string `json:"error"`
+}
 
 type Pokemon struct {
 	Id        int32     `bson:"id" json:"id"`
@@ -34,10 +39,15 @@ type Pokemon struct {
 }
 
 func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(req)
 	id, ok := vars["id"]
 	if !ok {
-		fmt.Println("id is missing in parameters")
+		w.WriteHeader(http.StatusBadRequest)
+		jsonError := jsonErrorResponse{Error: "id is missing in parameters"}
+		jsonResponse, _ := json.Marshal(jsonError)
+		w.Write(jsonResponse)
+		return
 	}
 
 	endpoint := POKEMON_API_DETAIL_URL + id
