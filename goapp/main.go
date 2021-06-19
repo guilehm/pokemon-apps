@@ -67,20 +67,32 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 
 	body, readErr := ioutil.ReadAll(resp.Body)
 	if readErr != nil {
-		panic(readErr)
+		w.WriteHeader(http.StatusServiceUnavailable)
+		jsonError := jsonErrorResponse{Error: "Service Unavailable"}
+		jsonResponse, _ := json.Marshal(jsonError)
+		w.Write(jsonResponse)
+		return
 	}
 
 	pokemon := Pokemon{}
 
 	jsonErr := json.Unmarshal(body, &pokemon)
 	if jsonErr != nil {
-		panic(jsonErr)
+		w.WriteHeader(http.StatusInternalServerError)
+		jsonError := jsonErrorResponse{Error: "Internal server error"}
+		jsonResponse, _ := json.Marshal(jsonError)
+		w.Write(jsonResponse)
+		return
 	}
 
 	jsonResponse, err := json.Marshal(pokemon)
 
 	if err != nil {
-		panic(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		jsonError := jsonErrorResponse{Error: "Internal server error"}
+		jsonResponse, _ := json.Marshal(jsonError)
+		w.Write(jsonResponse)
+		return
 	}
 
 	w.Header().Add("Content-Type", "application/json")
