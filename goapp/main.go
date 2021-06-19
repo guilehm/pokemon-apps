@@ -38,6 +38,12 @@ type Pokemon struct {
 	} `bson:"sprites" json:"sprites"`
 }
 
+func handleApiErrors(w http.ResponseWriter, status int, err jsonErrorResponse) {
+	jsonResponse, _ := json.Marshal(err)
+	w.WriteHeader(status)
+	w.Write(jsonResponse)
+}
+
 func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(req)
