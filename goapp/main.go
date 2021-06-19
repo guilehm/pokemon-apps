@@ -11,6 +11,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -162,15 +163,22 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 	jsonResponse, err := json.Marshal(pokemonResponseResult.Results)
 	pokemonMap := make(map[int]Pokemon, len(pokemonResponseResult.Results))
 
+	wg := sync.WaitGroup{}
+
 	for _, p := range pokemonResponseResult.Results {
+		wg.Add(1)
 		re := regexp.MustCompile(`/(\d+)`)
 		id := strings.Replace(re.FindAllString(p.Url, 1)[0], "/", "", 1)
 
-		pokemon := getPokemonDetail(id)
-		intId, _ := strconv.Atoi(id)
-		pokemonMap[intId] = pokemon
-
+		go func(id string) {
+			pokemon := getPokemonDetail(id)
+			intId, _ := strconv.Atoi(id)
+			pokemonMap[intId] = pokemon
+			wg.Done()
+		}(id)
 	}
+
+	wg.Wait()
 
 	if err != nil {
 		handleApiErrors(w, http.StatusInternalServerError, "")
