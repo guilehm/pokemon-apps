@@ -160,8 +160,7 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	jsonResponse, err := json.Marshal(pokemonResponseResult.Results)
-	pokemonMap := make(map[int]Pokemon, len(pokemonResponseResult.Results))
+	var pokemonList []Pokemon
 
 	wg := sync.WaitGroup{}
 
@@ -172,8 +171,7 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 
 		go func(id string) {
 			pokemon := getPokemonDetail(id)
-			intId, _ := strconv.Atoi(id)
-			pokemonMap[intId] = pokemon
+			pokemonList = append(pokemonList, pokemon)
 			wg.Done()
 		}(id)
 	}
@@ -184,6 +182,7 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 		handleApiErrors(w, http.StatusInternalServerError, "")
 		return
 	}
+	jsonResponse, _ := json.Marshal(pokemonList)
 	w.Write(jsonResponse)
 }
 
