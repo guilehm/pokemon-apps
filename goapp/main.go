@@ -7,6 +7,7 @@ import (
 	"goapp/db"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
 	"strconv"
 	"time"
@@ -98,29 +99,40 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 	const defaultLimit = "20"
 	const defaultOffset = "0"
 	w.Header().Set("Content-Type", "application/json")
-	strLimit := req.FormValue("limit")
-	strOffset := req.FormValue("offset")
+	limit := req.FormValue("limit")
+	offset := req.FormValue("offset")
 
-	if strLimit == "" {
-		strLimit = defaultLimit
+	if limit == "" {
+		limit = defaultLimit
 	}
 
-	if strOffset == "" {
-		strOffset = defaultOffset
+	if offset == "" {
+		offset = defaultOffset
 	}
 
-	limit, limitIntErr := strconv.Atoi(strLimit)
-	offset, offsetIntErr := strconv.Atoi(strOffset)
+	_, limitIntErr := strconv.Atoi(limit)
+	_, offsetIntErr := strconv.Atoi(offset)
 
 	if limitIntErr != nil || offsetIntErr != nil {
 		handleApiErrors(w, http.StatusBadRequest, "Invalid limit or offset")
 		return
 	}
 
+	u, err := url.Parse(POKEMON_API_LIST_URL)
+	if err != nil {
+		handleApiErrors(w, http.StatusInternalServerError, "Internal server error")
+		return
+	}
+	q := u.Query()
+	q.Set("limit", limit)
+	q.Set("offset", offset)
+	u.RawQuery = q.Encode()
+
 	jsonResponse, _ := json.Marshal(struct {
-		Limit  int `json:"limit"`
-		Offset int `json:"offset"`
-	}{limit, offset})
+		Limit  string `json:"limit"`
+		Offset string `json:"offset"`
+		Query  string `json:"query"`
+	}{limit, offset, u.String()})
 	w.Write(jsonResponse)
 }
 
