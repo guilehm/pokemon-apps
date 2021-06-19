@@ -30,6 +30,15 @@ type Pokemon struct {
 	} `bson:"sprites" json:"sprites"`
 }
 
+func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
+	jsonResponse, _ := json.Marshal(Pokemon{
+		Id:   25,
+		Name: "Pikachu",
+	})
+	w.Header().Add("Content-Type", "application/json")
+	w.Write(jsonResponse)
+}
+
 func pokemonList(w http.ResponseWriter, req *http.Request) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -90,6 +99,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/goapp/pokemon", pokemonList)
 	r.HandleFunc("/goapp/pokemon/{id}", pokemonDetail)
+	r.HandleFunc("/goapp/api/pokemon/{id}", pokemonApiDetail)
 
 	http.ListenAndServe(":"+os.Getenv("PORT"), r)
 }
