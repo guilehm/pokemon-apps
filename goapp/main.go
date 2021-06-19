@@ -94,6 +94,36 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 	w.Write(jsonResponse)
 }
 
+func pokemonApiList(w http.ResponseWriter, req *http.Request) {
+	const defaultLimit = "20"
+	const defaultOffset = "0"
+	w.Header().Set("Content-Type", "application/json")
+	strLimit := req.FormValue("limit")
+	strOffset := req.FormValue("offset")
+
+	if strLimit == "" {
+		strLimit = defaultLimit
+	}
+
+	if strOffset == "" {
+		strOffset = defaultOffset
+	}
+
+	limit, limitIntErr := strconv.Atoi(strLimit)
+	offset, offsetIntErr := strconv.Atoi(strOffset)
+
+	if limitIntErr != nil || offsetIntErr != nil {
+		handleApiErrors(w, http.StatusBadRequest, "Invalid limit or offset")
+		return
+	}
+
+	jsonResponse, _ := json.Marshal(struct {
+		Limit  int `json:"limit"`
+		Offset int `json:"offset"`
+	}{limit, offset})
+	w.Write(jsonResponse)
+}
+
 func pokemonList(w http.ResponseWriter, req *http.Request) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
