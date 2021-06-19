@@ -118,21 +118,21 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	u, err := url.Parse(POKEMON_API_LIST_URL)
+	endpoint, err := url.Parse(POKEMON_API_LIST_URL)
 	if err != nil {
 		handleApiErrors(w, http.StatusInternalServerError, "Internal server error")
 		return
 	}
-	q := u.Query()
+	q := endpoint.Query()
 	q.Set("limit", limit)
 	q.Set("offset", offset)
-	u.RawQuery = q.Encode()
+	endpoint.RawQuery = q.Encode()
 
 	jsonResponse, _ := json.Marshal(struct {
 		Limit  string `json:"limit"`
 		Offset string `json:"offset"`
 		Query  string `json:"query"`
-	}{limit, offset, u.String()})
+	}{limit, offset, endpoint.String()})
 	w.Write(jsonResponse)
 }
 
