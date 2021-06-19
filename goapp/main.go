@@ -56,6 +56,12 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	_, idError := strconv.Atoi(id)
+	if idError != nil {
+		handleApiErrors(w, http.StatusBadRequest, "id must be integer")
+		return
+	}
+
 	endpoint := POKEMON_API_DETAIL_URL + id
 	resp, err := http.Get(endpoint)
 
