@@ -46,6 +46,20 @@ type PokemonApiListResponse struct {
 	Results  []PokemonApiListResult `json:"results"`
 }
 
+func getPokemonDetail(id string) Pokemon {
+	endpoint := POKEMON_API_LIST_URL + id
+	resp, err := http.Get(endpoint)
+	if err != nil {
+		panic(err)
+	}
+	var pokemon Pokemon
+	err = json.NewDecoder(resp.Body).Decode(&pokemon)
+	if err != nil {
+		panic(err)
+	}
+	return pokemon
+}
+
 func handleApiErrors(w http.ResponseWriter, status int, message string) {
 	if message == "" {
 		message = http.StatusText(status)
