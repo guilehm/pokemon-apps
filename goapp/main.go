@@ -78,6 +78,7 @@ func pokemonDetail(w http.ResponseWriter, req *http.Request) {
 		w.Write(jsonResponse)
 	} else {
 		jsonResponse, _ := json.Marshal([]Pokemon{})
+		w.WriteHeader(http.StatusNotFound)
 		w.Write(jsonResponse)
 	}
 
