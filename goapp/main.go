@@ -162,14 +162,8 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	body, readErr := ioutil.ReadAll(resp.Body)
-	if readErr != nil {
-		handleApiErrors(w, http.StatusServiceUnavailable, "")
-		return
-	}
-
 	var pokemonResponseResult PokemonApiListResponse
-	jsonErr := json.Unmarshal(body, &pokemonResponseResult)
+	jsonErr := json.NewDecoder(resp.Body).Decode(&pokemonResponseResult)
 	if jsonErr != nil {
 		handleApiErrors(w, http.StatusInternalServerError, "")
 		return
