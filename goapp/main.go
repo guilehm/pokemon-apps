@@ -72,9 +72,14 @@ func pokemonDetail(w http.ResponseWriter, req *http.Request) {
 	pokemonCollection := db.PokemonCollection()
 	pokemonCollection.FindOne(ctx, bson.M{"id": intId}).Decode(&pokemon)
 
-	jsonResponse, _ := json.Marshal(pokemon)
 	w.Header().Add("Content-Type", "application/json")
-	w.Write(jsonResponse)
+	if pokemon != (Pokemon{}) {
+		jsonResponse, _ := json.Marshal(pokemon)
+		w.Write(jsonResponse)
+	} else {
+		jsonResponse, _ := json.Marshal([]Pokemon{})
+		w.Write(jsonResponse)
+	}
 
 }
 
