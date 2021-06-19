@@ -54,7 +54,11 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 	resp, err := http.Get(endpoint)
 
 	if err != nil {
-		panic(err)
+		w.WriteHeader(http.StatusServiceUnavailable)
+		jsonError := jsonErrorResponse{Error: "Service Unavailable"}
+		jsonResponse, _ := json.Marshal(jsonError)
+		w.Write(jsonResponse)
+		return
 	}
 
 	if resp.Body != nil {
