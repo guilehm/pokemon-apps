@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"goapp/db"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -99,21 +98,9 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 		defer resp.Body.Close()
 	}
 
-	body, readErr := ioutil.ReadAll(resp.Body)
-	if readErr != nil {
-		handleApiErrors(w, http.StatusServiceUnavailable, "")
-		return
-	}
-
 	pokemon := Pokemon{}
-
-	jsonErr := json.Unmarshal(body, &pokemon)
-	if jsonErr != nil {
-		handleApiErrors(w, http.StatusInternalServerError, "")
-		return
-	}
-
-	jsonResponse, err := json.Marshal(pokemon)
+	err = json.NewDecoder(resp.Body).Decode(&pokemon)
+	jsonResponse, _ := json.Marshal(pokemon)
 
 	if err != nil {
 		handleApiErrors(w, http.StatusInternalServerError, "")
