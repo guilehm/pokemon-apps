@@ -35,10 +35,14 @@ type Pokemon struct {
 	} `bson:"sprites" json:"sprites"`
 }
 
-func handleApiErrors(w http.ResponseWriter, status int) {
+func handleApiErrors(w http.ResponseWriter, status int, message string) {
+	if message == "" {
+		message = http.StatusText(status)
+	}
+
 	jsonResponse, _ := json.Marshal(struct {
 		Error string `json:"error"`
-	}{http.StatusText(status)})
+	}{message})
 	w.WriteHeader(status)
 	w.Write(jsonResponse)
 }
@@ -49,13 +53,13 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 	id, ok := vars["id"]
 
 	if !ok {
-		handleApiErrors(w, http.StatusBadRequest)
+		handleApiErrors(w, http.StatusBadRequest, "")
 		return
 	}
 
 	_, idError := strconv.Atoi(id)
 	if idError != nil {
-		handleApiErrors(w, http.StatusBadRequest)
+		handleApiErrors(w, http.StatusBadRequest, "")
 		return
 	}
 
@@ -63,7 +67,7 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 	resp, err := http.Get(endpoint)
 
 	if err != nil {
-		handleApiErrors(w, http.StatusServiceUnavailable)
+		handleApiErrors(w, http.StatusServiceUnavailable, "")
 		return
 	}
 
@@ -73,7 +77,7 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 
 	body, readErr := ioutil.ReadAll(resp.Body)
 	if readErr != nil {
-		handleApiErrors(w, http.StatusServiceUnavailable)
+		handleApiErrors(w, http.StatusServiceUnavailable, "")
 		return
 	}
 
@@ -81,14 +85,14 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 
 	jsonErr := json.Unmarshal(body, &pokemon)
 	if jsonErr != nil {
-		handleApiErrors(w, http.StatusInternalServerError)
+		handleApiErrors(w, http.StatusInternalServerError, "")
 		return
 	}
 
 	jsonResponse, err := json.Marshal(pokemon)
 
 	if err != nil {
-		handleApiErrors(w, http.StatusInternalServerError)
+		handleApiErrors(w, http.StatusInternalServerError, "")
 		return
 	}
 
@@ -114,19 +118,24 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 	_, offsetIntErr := strconv.Atoi(offset)
 
 	if limitIntErr != nil || offsetIntErr != nil {
-		handleApiErrors(w, http.StatusBadRequest)
+		handleApiErrors(w, http.StatusBadRequest, "")
 		return
 	}
 
 	endpoint, err := url.Parse(POKEMON_API_LIST_URL)
 	if err != nil {
-		handleApiErrors(w, http.StatusInternalServerError)
+		handleApiErrors(w, http.StatusInternalServerError, "")
 		return
 	}
 	q := endpoint.Query()
 	q.Set("limit", limit)
 	q.Set("offset", offset)
 	endpoint.RawQuery = q.Encode()
+
+	resp, err := http.Get(endpoint.String())
+	if err != nil {
+
+	}
 
 	jsonResponse, _ := json.Marshal(struct {
 		Limit  string `json:"limit"`
