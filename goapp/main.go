@@ -34,10 +34,41 @@ type Pokemon struct {
 }
 
 func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
-	jsonResponse, _ := json.Marshal(Pokemon{
-		Id:   25,
-		Name: "Pikachu",
-	})
+	vars := mux.Vars(req)
+	id, ok := vars["id"]
+	if !ok {
+		fmt.Println("id is missing in parameters")
+	}
+
+	endpoint := POKEMON_API_DETAIL_URL + id
+	resp, err := http.Get(endpoint)
+
+	if err != nil {
+		panic(err)
+	}
+
+	if resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	body, readErr := ioutil.ReadAll(resp.Body)
+	if readErr != nil {
+		panic(readErr)
+	}
+
+	pokemon := Pokemon{}
+
+	jsonErr := json.Unmarshal(body, &pokemon)
+	if jsonErr != nil {
+		panic(jsonErr)
+	}
+
+	jsonResponse, err := json.Marshal(pokemon)
+
+	if err != nil {
+		panic(err)
+	}
+
 	w.Header().Add("Content-Type", "application/json")
 	w.Write(jsonResponse)
 }
