@@ -134,7 +134,8 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 
 	resp, err := http.Get(endpoint.String())
 	if err != nil {
-
+		handleApiErrors(w, resp.StatusCode, "")
+		return
 	}
 
 	jsonResponse, _ := json.Marshal(struct {
