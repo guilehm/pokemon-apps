@@ -8,7 +8,9 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"regexp"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -46,6 +48,7 @@ type PokemonApiListResponse struct {
 }
 
 func getPokemonDetail(id string) Pokemon {
+	fmt.Printf("Fetching %q\n", id)
 	endpoint := POKEMON_API_LIST_URL + id
 	resp, err := http.Get(endpoint)
 	if err != nil {
@@ -157,6 +160,17 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 	}
 
 	jsonResponse, err := json.Marshal(pokemonResponseResult.Results)
+	pokemonMap := make(map[int]Pokemon, len(pokemonResponseResult.Results))
+
+	for _, p := range pokemonResponseResult.Results {
+		re := regexp.MustCompile(`/(\d+)`)
+		id := strings.Replace(re.FindAllString(p.Url, 1)[0], "/", "", 1)
+
+		pokemon := getPokemonDetail(id)
+		intId, _ := strconv.Atoi(id)
+		pokemonMap[intId] = pokemon
+
+	}
 
 	if err != nil {
 		handleApiErrors(w, http.StatusInternalServerError, "")
