@@ -1,1 +1,3 @@
-export type Pokemon = object
+export type BadgeType = {
+  text: string
+}
