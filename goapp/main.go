@@ -18,6 +18,7 @@ import (
 	"github.com/gorilla/mux"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 const POKEMON_API_BASE_URL = "https://pokeapi.co/api/v2"
@@ -198,10 +199,13 @@ func pokemonList(w http.ResponseWriter, req *http.Request) {
 	defer cancel()
 
 	pokemonCollection := db.PokemonCollection()
+	opts := options.Find().SetProjection(
+		bson.M{"_id": 0, "id": 1, "name": 1, "sprites.other.official-artwork.front_default": 1},
+	)
 	cursor, err := pokemonCollection.Find(
 		ctx,
 		bson.M{},
-		// bson.M{"height": bson.D{{"$gt", 5}}}
+		opts,
 	)
 	if err != nil {
 		panic(err)
