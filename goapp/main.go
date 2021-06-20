@@ -66,6 +66,7 @@ func getPokemonDetail(id string, ch *amqp.Channel, q amqp.Queue) Pokemon {
 	if err != nil {
 		panic(err)
 	}
+	now := time.Now()
 
 	err = ch.Publish(
 		"",
@@ -75,6 +76,7 @@ func getPokemonDetail(id string, ch *amqp.Channel, q amqp.Queue) Pokemon {
 		amqp.Publishing{
 			ContentType: "text/plain",
 			Body:        []byte(body),
+			MessageId:   fmt.Sprint(now.UnixNano()),
 		})
 
 	rabbit.FailOnError(err, "Failed to publish a message")
