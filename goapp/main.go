@@ -5,7 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"goapp/db"
-	"log"
+	"goapp/rabbit"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -17,11 +18,10 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/streadway/amqp"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
-
-	"github.com/streadway/amqp"
 )
 
 const POKEMON_API_BASE_URL = "https://pokeapi.co/api/v2"
@@ -53,7 +53,7 @@ type PokemonApiListResponse struct {
 	Results  []PokemonApiListResult `json:"results"`
 }
 
-func getPokemonDetail(id string) Pokemon {
+func getPokemonDetail(id string, ch *amqp.Channel, q amqp.Queue) Pokemon {
 	fmt.Printf("Fetching %q\n", id)
 	endpoint := POKEMON_API_LIST_URL + id
 	resp, err := http.Get(endpoint)
@@ -91,12 +91,6 @@ func handleApiErrors(w http.ResponseWriter, status int, message string) {
 	}{message})
 	w.WriteHeader(status)
 	w.Write(jsonResponse)
-}
-
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
-	}
 }
 
 func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
@@ -188,13 +182,30 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 
 	wg := sync.WaitGroup{}
 
+	conn, connError := rabbit.RabbitConnection()
+	rabbit.FailOnError(connError, "Failed to connect to RabbitMQ")
+	ch, err := conn.Channel()
+	defer conn.Close()
+	rabbit.FailOnError(err, "Failed to open a channel")
+	defer ch.Close()
+	queue, qError := ch.QueueDeclare(
+		"hello",
+		false,
+		false,
+		false,
+		false,
+		nil,
+	)
+
+	rabbit.FailOnError(qError, "Failed to declare a queue")
+
 	for _, p := range pokemonResponseResult.Results {
 		wg.Add(1)
 		re := regexp.MustCompile(`/(\d+)`)
 		id := strings.Replace(re.FindAllString(p.Url, 1)[0], "/", "", 1)
 
 		go func(id string) {
-			pokemon := getPokemonDetail(id)
+			pokemon := getPokemonDetail(id, ch, queue)
 			pokemonList = append(pokemonList, pokemon)
 			wg.Done()
 		}(id)
@@ -283,7 +294,4 @@ func main() {
 
 	http.ListenAndServe(":"+os.Getenv("PORT"), r)
 
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
-	failOnError(err, "Failed to connect to RabbitMQ")
-	defer conn.Close()
 }
