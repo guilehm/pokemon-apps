@@ -1,3 +1,5 @@
+import { PokemonType } from '../types/Pokemon'
+
 type PokemonListResult = {
   id: string,
   name: string,
@@ -16,7 +18,7 @@ type PokemonDetailResult = {
   types: {
     slot: number,
     type: {
-      name: string,
+      name: PokemonType,
     }
   }[]
 }
