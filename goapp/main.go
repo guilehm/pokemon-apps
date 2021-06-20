@@ -122,9 +122,7 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 	}
 
 	pokemon := Pokemon{}
-	err = json.NewDecoder(resp.Body).Decode(&pokemon)
-
-	if err != nil {
+	if err = json.NewDecoder(resp.Body).Decode(&pokemon); err != nil {
 		handleApiErrors(w, http.StatusInternalServerError, "")
 		return
 	}
