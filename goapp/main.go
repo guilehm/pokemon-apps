@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"os"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"sync"
@@ -182,6 +183,11 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 		handleApiErrors(w, http.StatusInternalServerError, "")
 		return
 	}
+
+	sort.Slice(pokemonList, func(i, j int) bool {
+		return pokemonList[i].Id < pokemonList[j].Id
+	})
+
 	jsonResponse, _ := json.Marshal(pokemonList)
 	w.Write(jsonResponse)
 }
