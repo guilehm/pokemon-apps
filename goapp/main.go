@@ -274,7 +274,7 @@ func pokemonDetail(w http.ResponseWriter, req *http.Request) {
 	pokemonCollection.FindOne(ctx, bson.M{"id": intId}).Decode(&pokemon)
 
 	w.Header().Add("Content-Type", "application/json")
-	if pokemon != (Pokemon{}) {
+	if pokemon.Name != "" {
 		jsonResponse, _ := json.Marshal(pokemon)
 		w.Write(jsonResponse)
 	} else {
