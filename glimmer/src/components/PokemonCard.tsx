@@ -1,9 +1,10 @@
 import { PokemonDetailResult } from '../services/types'
+import Badge from './Badge'
 import Link from 'next/link'
 
 import * as S from './PokemonCard.styles'
 
-const PokemonCard: React.FC<PokemonDetailResult> = ({ id, name, sprites }) => (
+const PokemonCard: React.FC<PokemonDetailResult> = ({ id, name, sprites, types }) => (
   <S.Section>
     <header>
       <figure>
@@ -19,6 +20,15 @@ const PokemonCard: React.FC<PokemonDetailResult> = ({ id, name, sprites }) => (
         </figcaption>
       </figure>
     </header>
+    <article>
+      <S.List>
+        {types.map(type =>
+          <Badge
+            key={`${name}-type-${type.type.name}`}
+            text={type.type.name}
+          />)}
+      </S.List>
+    </article>
   </S.Section>
 )
 

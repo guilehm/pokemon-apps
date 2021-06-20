@@ -20,3 +20,9 @@ export const Wrap = styled.div`
 
 export const PokemonImage = styled(Image) <ImageProps>`
 `;
+
+export const List = styled.ul`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
