@@ -124,13 +124,13 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 
 	pokemon := Pokemon{}
 	err = json.NewDecoder(resp.Body).Decode(&pokemon)
-	jsonResponse, _ := json.Marshal(pokemon)
 
 	if err != nil {
 		handleApiErrors(w, http.StatusInternalServerError, "")
 		return
 	}
 
+	jsonResponse, _ := json.Marshal(pokemon)
 	w.Write(jsonResponse)
 }
 
