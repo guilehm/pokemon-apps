@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"goapp/db"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -19,6 +20,8 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/streadway/amqp"
 )
 
 const POKEMON_API_BASE_URL = "https://pokeapi.co/api/v2"
@@ -75,6 +78,12 @@ func handleApiErrors(w http.ResponseWriter, status int, message string) {
 	}{message})
 	w.WriteHeader(status)
 	w.Write(jsonResponse)
+}
+
+func failOnError(err error, msg string) {
+	if err != nil {
+		log.Fatalf("%s: %s", msg, err)
+	}
 }
 
 func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
@@ -260,4 +269,8 @@ func main() {
 	r.HandleFunc("/goapp/api/pokemon/{id}", pokemonApiDetail)
 
 	http.ListenAndServe(":"+os.Getenv("PORT"), r)
+
+	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+	failOnError(err, "Failed to connect to RabbitMQ")
+	defer conn.Close()
 }
