@@ -1,0 +1,12 @@
+import { BadgeType } from '../types/Pokemon'
+
+import * as S from './Badge.styles'
+
+
+
+const Badge: React.FC<BadgeType> = ({ text }) => (
+  <S.Badge>{text}</S.Badge>
+)
+
+
+export default Badge
