@@ -235,12 +235,14 @@ func pokemonList(w http.ResponseWriter, req *http.Request) {
 		opts,
 	)
 	if err != nil {
-		panic(err)
+		handleApiErrors(w, http.StatusInternalServerError, "")
+		return
 	}
 
 	var pokemons []Pokemon
 	if err = cursor.All(ctx, &pokemons); err != nil {
-		panic(err)
+		handleApiErrors(w, http.StatusInternalServerError, "")
+		return
 	}
 
 	jsonResponse, _ := json.Marshal(pokemons)
