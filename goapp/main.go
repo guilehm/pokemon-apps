@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"goapp/db"
 	"goapp/rabbit"
+	"goapp/utils"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -295,6 +296,6 @@ func main() {
 	r.HandleFunc("/goapp/api/pokemon", pokemonApiList)
 	r.HandleFunc("/goapp/api/pokemon/{id}", pokemonApiDetail)
 
-	http.ListenAndServe(":"+os.Getenv("PORT"), r)
+	http.ListenAndServe(":"+os.Getenv("PORT"), utils.LogRequest(r))
 
 }
