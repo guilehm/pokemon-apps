@@ -29,12 +29,11 @@ const POKEMON_API_BASE_URL = "https://pokeapi.co/api/v2"
 const POKEMON_API_LIST_URL = "https://pokeapi.co/api/v2/pokemon/"
 
 type Pokemon struct {
-	Id        int32     `bson:"id" json:"id"`
-	Name      string    `bson:"name" json:"name"`
-	Height    int32     `bson:"height,omitempty" json:"height,omitempty"`
-	Weight    int32     `bson:"weight,omitempty" json:"weight,omitempty"`
-	DateAdded time.Time `bson:"date_added,omitempty" json:"date_added,omitempty"`
-	Sprites   struct {
+	Id      int32  `bson:"id" json:"id"`
+	Name    string `bson:"name" json:"name"`
+	Height  int32  `bson:"height,omitempty" json:"height,omitempty"`
+	Weight  int32  `bson:"weight,omitempty" json:"weight,omitempty"`
+	Sprites struct {
 		Other struct {
 			OfficialArtwork struct {
 				FrontDefault string `bson:"front_default" json:"front_default"`
