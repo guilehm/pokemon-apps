@@ -61,6 +61,8 @@ services:
     environment:
       PORT: 80
       MONGODB_URI: mongodb://spoon-mongo:27017/spoon
+      RABBITMQ_URL: amqp://guest:guest@spoon-rabbitmq/
+      POKEMON_ROUTING_KEY: pokemon
     ports:
       - 8090:80
 
