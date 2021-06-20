@@ -177,10 +177,6 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	var pokemonList []Pokemon
-
-	wg := sync.WaitGroup{}
-
 	conn, connError := rabbit.RabbitConnection()
 	rabbit.FailOnError(connError, "Failed to connect to RabbitMQ")
 	ch, err := conn.Channel()
@@ -197,6 +193,9 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 	)
 
 	rabbit.FailOnError(qError, "Failed to declare a queue")
+
+	pokemonList := make([]Pokemon, 0)
+	wg := sync.WaitGroup{}
 
 	for _, p := range pokemonResponseResult.Results {
 		wg.Add(1)
