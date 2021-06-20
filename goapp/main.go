@@ -119,7 +119,7 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 
 	endpoint := POKEMON_API_LIST_URL + id
 	resp, err := http.Get(endpoint)
-	if err != nil {
+	if err != nil || resp.StatusCode == http.StatusNotFound {
 		handleApiErrors(w, resp.StatusCode, "")
 		return
 	}
@@ -172,7 +172,7 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 	endpoint.RawQuery = q.Encode()
 
 	resp, err := http.Get(endpoint.String())
-	if err != nil {
+	if err != nil || resp.StatusCode == http.StatusNotFound {
 		handleApiErrors(w, resp.StatusCode, "")
 		return
 	}
