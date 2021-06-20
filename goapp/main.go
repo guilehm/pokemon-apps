@@ -62,12 +62,11 @@ func getPokemonDetail(id string, ch *amqp.Channel, q amqp.Queue) Pokemon {
 	}
 	var pokemon Pokemon
 	body, _ := ioutil.ReadAll(resp.Body)
-	err = json.Unmarshal(body, &pokemon)
-	if err != nil {
+	if err = json.Unmarshal(body, &pokemon); err != nil {
 		panic(err)
 	}
-	now := time.Now()
 
+	now := time.Now()
 	err = ch.Publish(
 		"",
 		q.Name,
