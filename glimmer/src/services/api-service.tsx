@@ -20,8 +20,8 @@ class ApiService {
     return this.client.get(`${this.baseUrl}/pokemon`)
   }
 
-  getPokemonDetail(id: string): Promise<AxiosResponse<PokemonDetailResult>> {
-    return this.client.get(`${this.baseUrl}/pokemon/${id}/`)
+  getPokemonDetail(id: number): Promise<AxiosResponse<PokemonDetailResult>> {
+    return this.client.get(`${this.baseUrl}/pokemon/${id}`)
   }
 
 

@@ -16,7 +16,7 @@ export default PokemonDetailPage
 
 type Params = {
   params: {
-    id: string
+    id: number
   }
 }
 
@@ -33,7 +33,7 @@ export const getStaticPaths: GetStaticPaths<{ id: string }> = async () => {
   const response = await Api.getPokemonList()
   return {
     paths: response.data.map((result: PokemonListResult) =>
-      ({ params: { id: result.id } })),
+      ({ params: { id: result.id.toString() } })),
     fallback: 'blocking'
   }
 }
