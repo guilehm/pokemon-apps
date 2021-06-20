@@ -55,7 +55,6 @@ type PokemonApiListResponse struct {
 }
 
 func getPokemonDetail(id string, ch *amqp.Channel, q amqp.Queue) Pokemon {
-	fmt.Printf("Fetching %q\n", id)
 	endpoint := POKEMON_API_LIST_URL + id
 	resp, err := http.Get(endpoint)
 	if err != nil {
