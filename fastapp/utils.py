@@ -36,5 +36,6 @@ async def make_pokemon_detail_response(payload):
                     'front_default': payload['sprites']['other']['official-artwork']['front_default'],
                 }
             }
-        }
+        },
+        'types': payload['types'],
     }
