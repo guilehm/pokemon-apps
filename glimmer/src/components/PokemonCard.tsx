@@ -26,6 +26,7 @@ const PokemonCard: React.FC<PokemonDetailResult> = ({ id, name, sprites, types }
           <Badge
             key={`${name}-type-${type.type.name}`}
             text={type.type.name}
+            pokemonType={type.type.name}
           />)}
       </S.List>
     </article>

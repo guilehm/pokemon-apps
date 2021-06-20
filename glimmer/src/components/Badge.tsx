@@ -4,8 +4,8 @@ import * as S from './Badge.styles'
 
 
 
-const Badge: React.FC<BadgeType> = ({ text }) => (
-  <S.Badge>{text}</S.Badge>
+const Badge: React.FC<BadgeType> = ({ text, pokemonType }) => (
+  <S.Badge pokemonType={pokemonType}>{text}</S.Badge>
 )
 
 
