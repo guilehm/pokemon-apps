@@ -68,7 +68,7 @@ func getPokemonDetail(id string, ch *amqp.Channel, q amqp.Queue) Pokemon {
 
 	body, _ := ioutil.ReadAll(resp.Body)
 	err = ch.Publish(
-		os.Getenv("POKEMON_ROUTING_KEY"),
+		"",
 		q.Name,
 		false,
 		false,
