@@ -43,6 +43,7 @@ Receive messages and create or update documents in MongoDB.
 
 Made with TypeScript.
 
+---
 ### fastapp
 
 Python with FastAPI backend running with Uvicorn.
@@ -51,6 +52,7 @@ Retrieve data from [PokéAPI](https://pokeapi.co/) and publish responses in Rabb
 
 Also have endpoints that retrieve data from MongoDB.
 
+---
 ### goapp
 
 An GO alternative backend that makes the same of "fastapp".
@@ -60,19 +62,21 @@ Just change the environment variable `API_URL` in "glimmer" at file `api-service
 
 GO is faster.
 
+---
 ### glimmer
 
 A React / Next.js frontend.
 
 Made with TypeScript and Styled Components.
 
-
+---
 ### proxy
 
 A reverse proxy using NGINX.
 
 Responsible to proxy pass and cache requests to the apps.
 
+---
 
 ## Troubleshooting
 
