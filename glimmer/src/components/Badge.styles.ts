@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components'
-import { BadgeType, PokemonType } from '../types/Pokemon';
+import styled from 'styled-components';
+import { BadgeType } from '../types/Pokemon';
 
 
 const typePallet = {
