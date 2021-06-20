@@ -12,7 +12,13 @@ type PokemonDetailResult = {
         'front_default': string
       }
     }
-  }
+  },
+  types: {
+    slot: number,
+    type: {
+      name: string,
+    }
+  }[]
 }
 
 
