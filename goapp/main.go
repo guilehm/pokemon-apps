@@ -212,11 +212,6 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 
 	wg.Wait()
 
-	if err != nil {
-		handleApiErrors(w, http.StatusInternalServerError, "")
-		return
-	}
-
 	sort.Slice(pokemonList, func(i, j int) bool {
 		return pokemonList[i].Id < pokemonList[j].Id
 	})
