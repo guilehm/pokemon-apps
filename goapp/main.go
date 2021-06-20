@@ -189,7 +189,7 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 	rabbit.FailOnError(err, "Failed to open a channel")
 	defer ch.Close()
 	queue, qError := ch.QueueDeclare(
-		"hello",
+		os.Getenv("POKEMON_ROUTING_KEY"),
 		false,
 		false,
 		false,
