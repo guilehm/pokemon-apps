@@ -65,6 +65,19 @@ func getPokemonDetail(id string) Pokemon {
 	if err != nil {
 		panic(err)
 	}
+
+	body, _ := ioutil.ReadAll(resp.Body)
+	err = ch.Publish(
+		os.Getenv("POKEMON_ROUTING_KEY"),
+		q.Name,
+		false,
+		false,
+		amqp.Publishing{
+			ContentType: "text/plain",
+			Body:        []byte(body),
+		})
+
+	rabbit.FailOnError(err, "Failed to publish a message")
 	return pokemon
 }
 
