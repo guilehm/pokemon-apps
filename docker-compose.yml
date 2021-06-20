@@ -40,6 +40,7 @@ services:
     image: glimmer
     container_name: glimmer
     command: sh -c "yarn --dev && yarn dev"
+    # command: sh -c "yarn build && yarn start"
     volumes:
       - ./glimmer:/usr/app
       - ./glimmer/node_modules:/usr/app/node_modules
@@ -49,12 +50,13 @@ services:
       PORT: 80
     depends_on:
       - fastapp
+      - goapp
 
   goapp:
     build: ./goapp
     image: goapp
     container_name: goapp
-    command: go run main.go
+    command: sh -c "./wait-for.sh spoon-rabbitmq:5672 && go run main.go"
     volumes:
       - ./goapp:/go/src/goapp
     working_dir: /go/src/goapp
@@ -63,6 +65,8 @@ services:
       MONGODB_URI: mongodb://spoon-mongo:27017/spoon
       RABBITMQ_URL: amqp://guest:guest@spoon-rabbitmq/
       POKEMON_ROUTING_KEY: pokemon
+    depends_on:
+      - rabbitmq
     ports:
       - 8090:80
 
