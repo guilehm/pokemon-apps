@@ -40,6 +40,13 @@ type Pokemon struct {
 			} `bson:"official-artwork" json:"official-artwork"`
 		} `bson:"other" json:"other"`
 	} `bson:"sprites" json:"sprites"`
+	Types []struct {
+		Slot int32 `bson:"slot" json:"slot"`
+		Type struct {
+			Name string `bson:"name" json:"name"`
+			Url  string `bson:"url" json:"url"`
+		} `bson:"type" json:"type"`
+	} `bson:"types" json:"types"`
 }
 
 type PokemonApiListResult struct {
