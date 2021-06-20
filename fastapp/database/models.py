@@ -19,10 +19,10 @@ class PyObjectId(ObjectId):
 
 
 class PokemonModel(BaseModel):
-    id: str = Field(...)
+    id: int = Field(...)
     name: str = Field(...)
 
     class Config:
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
-        json_encoders = {ObjectId: str}
+        json_encoders = {ObjectId: int}
