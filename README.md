@@ -1,4 +1,4 @@
-# Pokemon
+# Microservices with Pokemon API
 
 ## Required
 * Docker
@@ -58,7 +58,7 @@ Also have endpoints that retrieve data from MongoDB.
 An GO alternative backend that makes the same of "fastapp".
 
 You can choose which backend to use.
-Just change the environment variable `API_URL` in "glimmer" at file `api-service.tsx`.
+Just change the environment variable `API_URL` in "glimmer" at file `api-service.ts`.
 
 GO is faster.
 
