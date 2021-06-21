@@ -20,9 +20,9 @@ Add `pokemon.local.com` to your hosts
 
     sudo vim /etc/hosts
 
-  ```
-  127.0.0.1 pokemon.local.com
-  ```
+Add the following line to your hosts file:
+
+`127.0.0.1 pokemon.local.com`
 
 
 Start the apps
@@ -94,7 +94,7 @@ Python backend:
 http://pokemon.local.com/fastapp/api/pokemon/?limit=10&offset=0
 ```
 
-It will make a request at [PokéAPI](https://pokeapi.co/) and return the list in the response. In background it will make request for the details of each Pokémon in the list, and save their data in MongoDB.
+It will make a request at [PokéAPI](https://pokeapi.co/) to get a list and then make request for the details of each Pokémon in the list, returning the list to the frontend. In the background it will create or update in MongoDB the details of each Pokemon.
 
 
 You can change `limit` and `offset` parameters as you want.
