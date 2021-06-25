@@ -29,7 +29,9 @@ export const Badge = styled.span<BadgeType>`
   font-size: .75rem;
   font-weight: 700;
   color: white;
-  background-color: ${props => props.pokemonType ? typePallet[props.pokemonType] : 'gray'};
+  background-color: ${props =>
+    props.color ? props.color :
+      props.pokemonType ? typePallet[props.pokemonType] : 'gray'};
   padding: .35em .65em;
   text-align: center;
   border-radius: .25rem;
