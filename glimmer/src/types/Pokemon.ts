@@ -19,6 +19,7 @@ export type PokemonType =
   'water'
 
 export type BadgeType = {
-  text: string,
-  pokemonType?: PokemonType
+  text?: string,
+  color?: string,
+  pokemonType?: PokemonType,
 }
