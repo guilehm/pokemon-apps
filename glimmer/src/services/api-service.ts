@@ -14,15 +14,15 @@ class ApiService {
   }
 
   getApiPokemonList({ limit = 20, offset = 0 }): Promise<AxiosResponse> {
-    return this.client.get(`${this.baseUrl}/api/pokemon`, { params: { limit, offset } })
+    return this.client.get(`${this.baseUrl}/api/pokemon/`, { params: { limit, offset } })
   }
 
   getPokemonList(): Promise<AxiosResponse> {
-    return this.client.get(`${this.baseUrl}/pokemon`)
+    return this.client.get(`${this.baseUrl}/pokemon/`)
   }
 
   getPokemonDetail(id: number): Promise<AxiosResponse<PokemonDetailResult>> {
-    return this.client.get(`${this.baseUrl}/pokemon/${id}`)
+    return this.client.get(`${this.baseUrl}/pokemon/${id}/`)
   }
 
 
