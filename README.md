@@ -104,16 +104,16 @@ Be nice to the API.
 
 This request will be cached by NGINX.
 
-For testing purposes, if you want to bypass the cache, you can access the apps directly by changing the domain.
+For testing purposes, if you want to bypass the cache, you can access the apps directly by the following urls.
 
 GO backend:
 ```
-http://localhost:8090/goapp/api/pokemon/?limit=10&offset=0
+http://localhost:8090/api/pokemon/?limit=10&offset=0
 ```
 
 Python backend:
 ```
-http://localhost:8000/fastapp/api/pokemon/?limit=10&offset=0
+http://localhost:8000/api/pokemon/?limit=10&offset=0
 ```
 
 **Retrieve pokemon list from MongoDB:**
