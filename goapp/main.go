@@ -267,7 +267,11 @@ func pokemonDetail(w http.ResponseWriter, req *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	intId, _ := strconv.Atoi(id)
+	intId, idError := strconv.Atoi(id)
+	if idError != nil {
+		handleApiErrors(w, http.StatusBadRequest, "")
+		return
+	}
 
 	var pokemon Pokemon
 	pokemonCollection := db.PokemonCollection()
