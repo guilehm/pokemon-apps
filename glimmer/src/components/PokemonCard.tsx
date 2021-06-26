@@ -8,7 +8,7 @@ const PokemonCard: React.FC<PokemonDetailResult> = ({ id, name, sprites, types }
   <S.Section>
     <article>
       <header>
-        <Badge text={`Nº: ${id}`} />
+        <Badge color={'black'} text={`Nº: ${id}`} />
         <figure>
           <S.Wrap>
             {sprites.other['official-artwork'].front_default && <S.PokemonImage
