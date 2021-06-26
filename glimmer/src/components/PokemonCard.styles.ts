@@ -4,6 +4,8 @@ import Image, { ImageProps } from 'next/image'
 
 export const Section = styled.section`
   padding: 5px;
+  max-width: 300px;
+  margin: auto;
 `;
 
 export const Name = styled.h2`
