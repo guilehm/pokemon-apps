@@ -8,11 +8,11 @@
 
 Clone this repository
 
-    git clone git@github.com:Guilehm/studious-spoon.git
+    git clone git@github.com:Guilehm/pokemon-apps.git
 
 Enter the repository
 
-    cd studious-spoon
+    cd pokemon-apps
 
 Add `pokemon.local.com` to your hosts
 
