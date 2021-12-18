@@ -25,8 +25,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const POKEMON_API_BASE_URL = "https://pokeapi.co/api/v2"
-const POKEMON_API_LIST_URL = "https://pokeapi.co/api/v2/pokemon/"
+const PokemonApiListUrl = "https://pokeapi.co/api/v2/pokemon/"
 
 type Pokemon struct {
 	Id      int32  `bson:"id" json:"id"`
