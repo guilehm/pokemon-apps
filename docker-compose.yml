@@ -49,8 +49,7 @@ services:
     environment:
       PORT: 80
     depends_on:
-      - fastapp
-      - goapp
+      - nginx
 
   goapp:
     build: ./goapp
@@ -80,10 +79,7 @@ services:
       - 80:80
     links:
       - fastapp:fastapp
-      - dollop:dollop
-      - glimmer:glimmer
-    depends_on:
-      - glimmer
+      - goapp:goapp
     networks:
       default:
         aliases:
