@@ -48,8 +48,6 @@ services:
       - 3001:80
     environment:
       PORT: 80
-    depends_on:
-      - nginx
 
   goapp:
     build: ./goapp
@@ -78,6 +76,7 @@ services:
     ports:
       - 80:80
     links:
+      - glimmer:glimmer
       - fastapp:fastapp
       - goapp:goapp
     networks:
