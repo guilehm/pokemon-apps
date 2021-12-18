@@ -60,7 +60,7 @@ type PokemonApiListResponse struct {
 }
 
 func getPokemonDetail(id string, ch *amqp.Channel, q amqp.Queue) Pokemon {
-	endpoint := POKEMON_API_LIST_URL + id
+	endpoint := PokemonApiListUrl + id
 	resp, err := http.Get(endpoint)
 	if err != nil {
 		panic(err)
@@ -116,7 +116,7 @@ func pokemonApiDetail(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	endpoint := POKEMON_API_LIST_URL + id
+	endpoint := PokemonApiListUrl + id
 	resp, err := http.Get(endpoint)
 	if err != nil || resp.StatusCode == http.StatusNotFound {
 		handleApiErrors(w, resp.StatusCode, "")
@@ -160,7 +160,7 @@ func pokemonApiList(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	endpoint, err := url.Parse(POKEMON_API_LIST_URL)
+	endpoint, err := url.Parse(PokemonApiListUrl)
 	if err != nil {
 		handleApiErrors(w, http.StatusInternalServerError, "")
 		return
